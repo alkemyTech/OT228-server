@@ -1,12 +1,14 @@
 package com.alkemy.ong.model;
 
-
-import lombok.Data;
-
+import java.time.LocalDate;
 import javax.persistence.*;
 
-import java.sql.Timestamp;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Data;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -14,6 +16,8 @@ import org.hibernate.annotations.Where;
 @Entity
 @Table(name = "activities")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @SQLDelete(sql = "UPDATE activities SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
 public class Activity {
@@ -31,5 +35,9 @@ public class Activity {
     
     private boolean deleted = Boolean.FALSE;
 
-    private Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+    @CreationTimestamp
+    private LocalDate create;
+
+    @UpdateTimestamp
+    private LocalDate update;
 }
