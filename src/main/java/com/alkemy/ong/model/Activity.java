@@ -16,7 +16,7 @@ import org.hibernate.annotations.Where;
 @Data
 @SQLDelete(sql = "UPDATE activities SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
-public class Activities {
+public class Activity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
