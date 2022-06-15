@@ -1,6 +1,8 @@
 package com.alkemy.ong.model;
 
 import java.time.LocalDate;
+
+import javax.validation.constraints.NotNull;
 import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -26,11 +28,14 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull(message = "name must not be null")
     private String name;
-    @Column(nullable = false, columnDefinition = "text")
+    
+    @NotNull(message = "content must not be null")
+    @Column(columnDefinition = "TEXT")
     private String content;
-    @Column(nullable = false)
+    
+    @NotNull(message = "image must not be null")
     private String image;
     
     private boolean deleted = Boolean.FALSE;
