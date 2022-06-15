@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
@@ -28,19 +29,20 @@ public class Organization {
     @Column(name = "organization_id")
 	private Long id;
 	
-    @Column(nullable = false)
+	@NotNull(message = "Name must not be null.")
 	private String name;
 	
-    @Column(nullable = false)
+	@NotNull(message = "Image must not be null.")
 	private String image;
 	
 	private String address;
 	private String phone;
 	
-    @Column(nullable = false)
+	@NotNull(message = "Email must not be null.")
 	private String email;
 	
-    @Column(name = "welcome_text", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "welcome_text", columnDefinition = "TEXT")
+	@NotNull(message = "Welcome Text must not be null.")
 	private String welcomeText;
 	
     @Column(name = "about_us_text", columnDefinition = "TEXT")
