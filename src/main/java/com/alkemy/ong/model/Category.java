@@ -6,7 +6,9 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Entity
@@ -24,13 +26,13 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     private Long id;
-    @NonNull
+    @NotNull(message = "Name must not be null.")
     private String name;
     private String description;
     private String image;
 
     @CreationTimestamp
-    private Timestamp createAt;
+    private Timestamp createdAt;
 
     @UpdateTimestamp
     @Column(name = "modified_at")
