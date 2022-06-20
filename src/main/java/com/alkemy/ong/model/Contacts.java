@@ -29,7 +29,7 @@ public class Contacts {
     private String phone;
 
     @Email
-    @NotNull(message = "email mus not be null")
+    @NotNull(message = "email must not be null")
     private String email;
 
     private String message;
