@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -38,6 +39,7 @@ public class Organization {
 	private String address;
 	private String phone;
 	
+	@Email
 	@NotNull(message = "Email must not be null.")
 	private String email;
 	
