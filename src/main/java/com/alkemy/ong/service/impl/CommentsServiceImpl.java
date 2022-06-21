@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class CommentsServiceImpl implements ICommentsService {
 
     @Autowired
-    ICommentsRepository commentsRepository;
+    private ICommentsRepository commentsRepository;
     @Autowired
-    ModelMapper mapper;
+    private ModelMapper mapper;
 
     @Override
     public CommentDto register(CommentDto comments) {
