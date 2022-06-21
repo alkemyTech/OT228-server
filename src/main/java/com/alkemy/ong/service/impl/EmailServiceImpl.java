@@ -2,6 +2,7 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.exception.EmailException;
 import com.alkemy.ong.service.IEmailService;
+import com.alkemy.ong.util.EmailMessages;
 
 import com.sendgrid.Method;
 import com.sendgrid.Request;
@@ -11,6 +12,8 @@ import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 import com.sendgrid.helpers.mail.objects.Personalization;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +32,8 @@ public class EmailServiceImpl implements IEmailService {
     @Value("${app.sendgrid.templateIdRegister}")
     private String templateIdRegister;
 
+    private static final Logger logger = LoggerFactory.getLogger("EmailLog");
+
     public void send(Mail mail) throws Exception {
 
         SendGrid sendGrid = new SendGrid(apiKey);
@@ -41,11 +46,12 @@ public class EmailServiceImpl implements IEmailService {
             Response response = sendGrid.api(request);
 
             if (response.getStatusCode() != HttpStatus.ACCEPTED.value()) {
+                logger.info(response.getBody());
                 throw new EmailException();
             }
 
         } catch (EmailException ex) {
-            System.out.println("Error sending email");
+            logger.info(EmailMessages.ERROR_TEXT);
         }
     }
 
@@ -57,7 +63,7 @@ public class EmailServiceImpl implements IEmailService {
 
         Personalization personalization = new Personalization();
         personalization.addTo(to);
-        personalization.setSubject("Welcome to SomosMas ONG!");
+        personalization.setSubject(EmailMessages.WELCOME_TEXT);
         personalization.addDynamicTemplateData("name", name);
 
         Mail mail = new Mail();
