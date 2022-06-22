@@ -6,7 +6,9 @@ import com.alkemy.ong.repository.ICommentsRepository;
 import com.alkemy.ong.service.ICommentsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CommentsServiceImpl implements ICommentsService {
 
     @Autowired
