@@ -18,7 +18,7 @@ public class CategoryController {
     @Autowired
     CategoryServiceImpl categoryService;
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity<?> findAllCategorysName(){
         return new ResponseEntity<>(categoryService.viewAllCategoryNames(), HttpStatus.OK);
