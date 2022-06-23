@@ -19,14 +19,24 @@ public class CategoryServiceImpl implements ICategoryService {
     @Autowired
    private ModelMapper mapper;
 
+//    @Override
+//    public List<CategoryNameDto> viewAllCategoryNames() {
+//        List<CategoryNameDto> categoryNameDtos = new ArrayList<>();
+//        List<Category> categories = categoryRepository.findAll();
+//        for (Category category : categories) {
+//            CategoryNameDto categoryNameDto = mapper.map(category, CategoryNameDto.class);
+//            categoryNameDtos.add(categoryNameDto);
+//        }
+//            return categoryNameDtos;
+//    }
+
+
     @Override
     public List<CategoryNameDto> viewAllCategoryNames() {
         List<CategoryNameDto> categoryNameDtos = new ArrayList<>();
-        List<Category> categories = categoryRepository.findAll();
-        for (Category category : categories) {
-            CategoryNameDto categoryNameDto = mapper.map(category, CategoryNameDto.class);
-            categoryNameDtos.add(categoryNameDto);
-        }
-            return categoryNameDtos;
+        categoryRepository.findAll()
+                .stream()
+                .forEach(category -> categoryNameDtos.add(mapper.map(category, CategoryNameDto.class)));
+        return categoryNameDtos;
     }
 }

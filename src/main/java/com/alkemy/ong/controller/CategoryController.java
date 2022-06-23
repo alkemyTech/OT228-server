@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CategoryController {
 
     @Autowired
-    CategoryServiceImpl categoryService;
+   private CategoryServiceImpl categoryService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
