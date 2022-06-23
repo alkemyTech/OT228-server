@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @Table(name = "members")
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE members SET soft_delete = true WHERE id=?")
+@SQLDelete(sql = "UPDATE members SET delete = true WHERE id=?")
 @Where(clause = "deleted=false")
 public class Member {
 
@@ -48,6 +48,5 @@ public class Member {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    @Column(name = "soft_delete")
-    private boolean softDelete = Boolean.FALSE;
+    private boolean delete = Boolean.FALSE;
 }
