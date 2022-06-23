@@ -21,8 +21,8 @@ public class Slide {
     @Column(columnDefinition = "TEXT")
     private String text;
 
-    @OneToOne
     @NotNull(message = "Organization must not be null.")
+    @OneToOne
     @JoinColumn(name = "organization_id")
     private Organization organization;
 }
