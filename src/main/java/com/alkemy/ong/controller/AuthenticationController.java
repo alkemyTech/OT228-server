@@ -2,9 +2,12 @@ package com.alkemy.ong.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import com.alkemy.ong.dto.AuthenticactionAuthDto;
 import com.alkemy.ong.model.Users;
+import com.alkemy.ong.repository.RoleRepository;
+import com.alkemy.ong.repository.UsersRspository;
 import com.alkemy.ong.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -27,6 +30,8 @@ import com.alkemy.ong.dto.AuthenticationRequestDto;
 import com.alkemy.ong.security.jwt.JwtUtils;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping(AuthenticationController.AUTH)
 public class AuthenticationController {
@@ -43,20 +48,25 @@ public class AuthenticationController {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-    @PostMapping(AUTH)
-    public ResponseEntity<?> auth(@RequestBody AuthenticactionAuthDto newUser) {
-        try {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(newUser.getEmail());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A user with this email already exists");
-        } catch (UsernameNotFoundException e) {
-            Users user = new Users(); //Mapper with newUser
-            userDetailsService.save(user);
-            return new ResponseEntity<>("Usuario creado", HttpStatus.CREATED);
+    @Autowired
+    private UsersRspository usersRspository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @PostMapping()
+    public ResponseEntity<?> auth(@Valid @RequestBody AuthenticactionAuthDto newUser) {
+        Optional<Users> optionalUser = usersRspository.findByEmail(newUser.getEmail());
+        if (optionalUser.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ese email ya existe");
         }
+        Users users = convert(newUser);
+        usersRspository.save(users);
+        return new ResponseEntity<>("User created", HttpStatus.CREATED);
     }
 
     @PostMapping(LOGIN)
-    public ResponseEntity<?> login(@RequestBody AuthenticationRequestDto request) {
+    public ResponseEntity<?> login(@Valid @RequestBody AuthenticationRequestDto request) {
         try {
             Authentication authenticate = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
@@ -71,5 +81,15 @@ public class AuthenticationController {
         }
     }
 
+    private Users convert(AuthenticactionAuthDto authDto) {
+        Users users = new Users();
+        users.setEmail(authDto.getEmail());
+        users.setFirstName(authDto.getFirstName());
+        users.setLastName(authDto.getLastName());
+        users.setPassword(passwordEncoder.encode(authDto.getPassword()));
+        users.setPhoto(authDto.getPhoto());
+        users.setRole(roleRepository.getById(1L));
+        return users;
+    }
 
 }

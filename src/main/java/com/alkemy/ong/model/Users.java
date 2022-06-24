@@ -8,7 +8,6 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
-import javax.management.relation.Role;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
@@ -42,7 +41,7 @@ public class Users {
     @Column(unique = true)
     private String photo;
 
-    @OneToOne
+    @ManyToOne
     @NotNull(message = "Role must not be null.")
     @JoinColumn(name = "role_id")
     private Role role;

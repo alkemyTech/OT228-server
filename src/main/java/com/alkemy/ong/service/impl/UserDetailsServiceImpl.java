@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return User.builder()
                 .username(u.getEmail())
                 .password(u.getPassword())
-                .authorities(u.getRole().getRoleName())
+                .authorities(u.getRole().getName())
                 .accountExpired(false)
                 .accountLocked(false)
                 .credentialsExpired(false)

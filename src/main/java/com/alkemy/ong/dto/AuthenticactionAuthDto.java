@@ -5,16 +5,20 @@ import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Setter
 @Getter
 public class AuthenticactionAuthDto {
     @NotBlank
-    private String nombre;
+    private String firstName;
     @NotBlank
-    private String nombreUsuario;
+    private String lastName;
     @Email
     private String email;
+
     @NotBlank
     private String password;
+
+    private String photo;
 }
