@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.alkemy.ong.dto.AuthenticactionAuthDto;
+import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.model.Users;
 import com.alkemy.ong.repository.RoleRepository;
 import com.alkemy.ong.repository.UsersRspository;
@@ -55,14 +56,14 @@ public class AuthenticationController {
     private RoleRepository roleRepository;
 
     @PostMapping()
-    public ResponseEntity<?> auth(@Valid @RequestBody AuthenticactionAuthDto newUser) {
+    public ResponseEntity<UserDto> auth(@Valid @RequestBody AuthenticactionAuthDto newUser) {
         Optional<Users> optionalUser = usersRspository.findByEmail(newUser.getEmail());
         if (optionalUser.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ese email ya existe");
         }
         Users users = convert(newUser);
         usersRspository.save(users);
-        return new ResponseEntity<>("User created", HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(convertoDto(users));
     }
 
     @PostMapping(LOGIN)
@@ -90,6 +91,17 @@ public class AuthenticationController {
         users.setPhoto(authDto.getPhoto());
         users.setRole(roleRepository.getById(1L));
         return users;
+    }
+
+    private UserDto convertoDto(Users users) {
+        UserDto userDto = new UserDto();
+        userDto.setEmail(users.getEmail());
+        userDto.setFirstName(users.getFirstName());
+        userDto.setLastName(users.getLastName());
+        userDto.setPhoto(users.getPhoto());
+        userDto.setRole(users.getRole().getName());
+        userDto.setCreatedAt(users.getCreatedAt());
+        return userDto;
     }
 
 }
