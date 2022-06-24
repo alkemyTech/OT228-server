@@ -13,22 +13,27 @@ import com.alkemy.ong.repository.UsersRspository;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-	@Autowired
-	private UsersRspository userRepository;
-	
-	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		Users u = userRepository.findByEmail(email)
-				.orElseThrow(() -> new UsernameNotFoundException("Email not found."));		
-		return User.builder()
-				.username(u.getEmail())
-				.password(u.getPassword())
-				.authorities(u.getRole().getRoleName())
-				.accountExpired(false)
-				.accountLocked(false)
-				.credentialsExpired(false)
-				.disabled(false)
-				.build();
-	}
+    @Autowired
+    private UsersRspository userRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Users u = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Email not found."));
+        return User.builder()
+                .username(u.getEmail())
+                .password(u.getPassword())
+                .authorities(u.getRole().getRoleName())
+                .accountExpired(false)
+                .accountLocked(false)
+                .credentialsExpired(false)
+                .disabled(false)
+                .build();
+    }
+
+    public void save(Users usuario) {
+        userRepository.save(usuario);
+    }
+
 
 }
