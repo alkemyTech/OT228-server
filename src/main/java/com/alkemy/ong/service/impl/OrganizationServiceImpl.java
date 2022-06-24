@@ -1,10 +1,16 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.OrganizationDto;
+import com.alkemy.ong.model.Organization;
+import com.alkemy.ong.repository.OrganizationRepository;
 import com.alkemy.ong.service.IOrganizationService;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class OrganizationServiceImpl  implements IOrganizationService {
@@ -12,10 +18,34 @@ public class OrganizationServiceImpl  implements IOrganizationService {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Autowired
+    OrganizationRepository organizationRepository;
+
     @Override
     public OrganizationDto findById(Long id) {
         OrganizationDto organizationFound = objectMapper.convertValue(OrganizationRepository.findById(id), OrganizationDto.class);
         return organizationFound;
     }
+
+    @Override
+    public OrganizationDto updateOrganization(OrganizationDto organizationDto) {
+
+        if(!organizationRepository.existsById(organizationDto.getId())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Organization with the id: " + organizationDto.getId()+ " ,was not found");
+        }
+
+        Organization organizationUpdate = organizationRepository.getById(organizationDto.getId());
+
+        organizationUpdate.setName(organizationDto.getName());
+        organizationUpdate.setImage(organizationDto.getImage());
+        organizationUpdate.setAddress(organizationDto.getAddress());
+        organizationUpdate.setPhone(organizationDto.getPhone());
+
+        organizationRepository.save(organizationUpdate);
+
+        return objectMapper.convertValue(organizationUpdate, OrganizationDto.class);
+    }
+
 
 }
