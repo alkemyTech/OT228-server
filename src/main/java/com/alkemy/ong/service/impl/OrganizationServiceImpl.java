@@ -8,12 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OrganizationServiceImpl  implements IOrganizationService {
+public class OrganizationServiceImpl implements IOrganizationService {
 
     @Autowired
    private ObjectMapper objectMapper;
     @Autowired
    private OrganizationRepository organizationRepository;
+
 
     @Override
     public OrganizationDto findById(Long id) {
