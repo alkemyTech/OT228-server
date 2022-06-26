@@ -11,12 +11,14 @@ import org.springframework.stereotype.Service;
 public class OrganizationServiceImpl implements IOrganizationService {
 
     @Autowired
-    ObjectMapper objectMapper;
+   private ObjectMapper objectMapper;
+    @Autowired
+   private OrganizationRepository organizationRepository;
 
 
     @Override
     public OrganizationDto findById(Long id) {
-        OrganizationDto organizationFound = objectMapper.convertValue(OrganizationRepository.findById(id), OrganizationDto.class);
+        OrganizationDto organizationFound = objectMapper.convertValue(organizationRepository.findById(id), OrganizationDto.class);
         return organizationFound;
     }
 
