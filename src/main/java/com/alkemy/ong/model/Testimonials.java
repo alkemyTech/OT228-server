@@ -19,7 +19,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "testimonials")
 @SQLDelete(sql = "UPDATE testimonials SET deleted = true WHERE id = ?")
-@Where(clause = "softDeleted = false")
+@Where(clause = "deleted = false")
 public class Testimonials {
 
     @Id
@@ -44,7 +44,7 @@ public class Testimonials {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    private boolean softDeleted = Boolean.FALSE;
+    private boolean deleted = Boolean.FALSE;
 
     @Override
     public boolean equals(Object o) {
