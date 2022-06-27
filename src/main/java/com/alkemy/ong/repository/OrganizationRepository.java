@@ -5,7 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import com.alkemy.ong.model.Organization;
 
+import java.util.Optional;
+
 @Repository
 public interface OrganizationRepository extends JpaRepository<Organization, Long> {
-
+    Optional<Organization> findById(Long aLong);
 }
