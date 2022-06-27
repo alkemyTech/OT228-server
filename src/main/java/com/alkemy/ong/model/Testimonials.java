@@ -19,7 +19,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "testimonials")
 @SQLDelete(sql = "UPDATE testimonials SET deleted = true WHERE id = ?")
-@Where(clause = "deleted = false")
+@Where(clause = "softDeleted = false")
 public class Testimonials {
 
     @Id
