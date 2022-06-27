@@ -10,6 +10,7 @@ import com.alkemy.ong.model.Users;
 import com.alkemy.ong.repository.RoleRepository;
 import com.alkemy.ong.repository.UsersRspository;
 import com.alkemy.ong.service.impl.UserDetailsServiceImpl;
+import com.alkemy.ong.util.MessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,11 +19,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,15 +53,18 @@ public class AuthenticationController {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private MessageHandler header;
+
     @PostMapping()
     public ResponseEntity<UserDto> auth(@Valid @RequestBody AuthenticactionAuthDto newUser) {
         Optional<Users> optionalUser = usersRspository.findByEmail(newUser.getEmail());
         if (optionalUser.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ese email ya existe");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, header.userFound);
         }
         Users users = convert(newUser);
         usersRspository.save(users);
-        return ResponseEntity.status(HttpStatus.CREATED).body(convertoDto(users));
+        return ResponseEntity.status(HttpStatus.CREATED).body(converToDto(users));
     }
 
     @PostMapping(LOGIN)
@@ -93,7 +94,7 @@ public class AuthenticationController {
         return users;
     }
 
-    private UserDto convertoDto(Users users) {
+    private UserDto converToDto(Users users) {
         UserDto userDto = new UserDto();
         userDto.setEmail(users.getEmail());
         userDto.setFirstName(users.getFirstName());

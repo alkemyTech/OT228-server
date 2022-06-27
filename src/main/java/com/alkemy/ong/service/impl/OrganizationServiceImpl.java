@@ -18,8 +18,6 @@ public class OrganizationServiceImpl implements IOrganizationService {
 
     @Override
     public OrganizationDto findById(Long id) {
-//        OrganizationDto organizationFound = objectMapper.convertValue(OrganizationRepository.findById(id), OrganizationDto.class);
-//        return organizationFound;
         return objectMapper.convertValue(organizationRepository.findById(id), OrganizationDto.class);
     }
 

@@ -45,15 +45,7 @@ public class JwtUtils {
                         .withIssuedAt(Date.from(Instant.now()))
                         .withExpiresAt(Date.from(Instant.now().plus(Duration.ofMinutes(EXPIRATION_TIME))))
                         .sign(Algorithm.HMAC512(SECRET_KEY));
-//		return TOKEN_PREFIX +
-//				JWT.create()
-//						.withSubject(userDetails.getUsername())
-//						.withClaim("role", userDetails.getAuthorities().stream()
-//								.map(authority -> authority.getAuthority())
-//								.toList())
-//						.withIssuedAt(Date.from(Instant.now()))
-//						.withExpiresAt(Date.from(Instant.now().plus(Duration.ofMinutes(EXPIRATION_TIME))))
-//						.sign(Algorithm.HMAC512(SECRET_KEY));
+
     }
 
     public static String getUsername(String token) {
