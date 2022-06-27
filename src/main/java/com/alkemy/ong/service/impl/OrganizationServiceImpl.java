@@ -16,10 +16,10 @@ import org.springframework.web.server.ResponseStatusException;
 public class OrganizationServiceImpl  implements IOrganizationService {
 
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
     @Autowired
-    OrganizationRepository organizationRepository;
+    private OrganizationRepository organizationRepository;
 
     @Override
     public OrganizationDto findById(Long id) {
@@ -31,7 +31,7 @@ public class OrganizationServiceImpl  implements IOrganizationService {
     public OrganizationDto updateOrganization(OrganizationDto organizationDto) {
 
         if(!organizationRepository.existsById(organizationDto.getId())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "Organization with the id: " + organizationDto.getId()+ " ,was not found");
         }
 
