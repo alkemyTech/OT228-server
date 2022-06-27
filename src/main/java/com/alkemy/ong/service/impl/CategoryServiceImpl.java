@@ -1,5 +1,12 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.dto.CategoryNameDto;
+
+import org.modelmapper.ModelMapper;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +22,9 @@ public class CategoryServiceImpl implements ICategoryService {
 	
 	@Autowired
 	private ICategoryRepository categoryRepository;
+  
+  @Autowired
+  private ModelMapper mapper;
 	
 	@Override
 	public CategoryDto save(CategoryDto categoryDto) {
@@ -24,5 +34,23 @@ public class CategoryServiceImpl implements ICategoryService {
 						categoryDto, Category.class)),
 				CategoryDto.class);
 	}
+  
+    @Override
+    public List<CategoryNameDto> viewAllCategoryNames() {
+        List<CategoryNameDto> categoryNameDtos = new ArrayList<>();
+        categoryRepository.findAll()
+                .stream()
+                .forEach(category -> categoryNameDtos.add(mapper.map(category, CategoryNameDto.class)));
+        return categoryNameDtos;
+    }
+
+    @Override
+    public List<CategoryNameDto> viewAllCategoryNames() {
+        List<CategoryNameDto> categoryNameDtos = new ArrayList<>();
+        categoryRepository.findAll()
+                .stream()
+                .forEach(category -> categoryNameDtos.add(mapper.map(category, CategoryNameDto.class)));
+        return categoryNameDtos;
+    }
 
 }
