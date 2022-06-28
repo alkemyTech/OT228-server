@@ -54,7 +54,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, "/auth/**").permitAll()
 				// Private endpoints
 				.antMatchers(HttpMethod.POST, "/organization/public").hasRole("ADMIN")
-				.antMatchers("/categories").hasRole("ROLE_ADMIN")
+				.antMatchers("/categories","/news/id/**").hasRole("ROLE_ADMIN")
 				.anyRequest().authenticated()
 				.and()
 		// Add JWT Token Filter
