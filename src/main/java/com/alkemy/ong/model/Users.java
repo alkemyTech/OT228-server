@@ -1,13 +1,12 @@
 package com.alkemy.ong.model;
 
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 
 import javax.management.relation.Role;
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
@@ -16,6 +15,8 @@ import java.sql.Timestamp;
 @Table(name = "users")
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
+@DynamicInsert
+@DynamicUpdate
 public class Users {
 
     @Id

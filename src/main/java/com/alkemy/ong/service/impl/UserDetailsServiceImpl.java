@@ -8,13 +8,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.alkemy.ong.model.Users;
-import com.alkemy.ong.repository.UsersRspository;
+import com.alkemy.ong.repository.UsersRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
-	private UsersRspository userRepository;
+	private UsersRepository userRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
