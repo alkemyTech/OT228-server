@@ -13,17 +13,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
-public class OrganizationServiceImpl  implements IOrganizationService {
+public class OrganizationServiceImpl implements IOrganizationService {
 
     @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private OrganizationRepository organizationRepository;
+   private ObjectMapper objectMapper;
+   
+   @Autowired
+   private OrganizationRepository organizationRepository;
 
     @Override
     public OrganizationDto findById(Long id) {
-        OrganizationDto organizationFound = objectMapper.convertValue(OrganizationRepository.findById(id), OrganizationDto.class);
+        OrganizationDto organizationFound = objectMapper.convertValue(organizationRepository.findById(id), OrganizationDto.class);
         return organizationFound;
     }
 
