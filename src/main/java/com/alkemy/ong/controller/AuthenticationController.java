@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.alkemy.ong.dto.AuthenticactionAuthDto;
 import com.alkemy.ong.dto.UserDto;
+import com.alkemy.ong.mapper.UserMapper;
 import com.alkemy.ong.model.Users;
 import com.alkemy.ong.repository.RoleRepository;
 import com.alkemy.ong.repository.UsersRspository;
@@ -38,23 +39,19 @@ public class AuthenticationController {
     protected static final String AUTH = "/auth";
     private static final String LOGIN = "/login";
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final UsersRspository usersRspository;
+    private final MessageHandler header;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
-    private UsersRspository usersRspository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private MessageHandler header;
+    public AuthenticationController(MessageHandler header, UserDetailsServiceImpl userDetailsService,
+                                    UsersRspository usersRspository, AuthenticationManager authenticationManager) {
+        this.header = header;
+        this.userDetailsService = userDetailsService;
+        this.usersRspository = usersRspository;
+        this.authenticationManager = authenticationManager;
+    }
 
     @PostMapping()
     public ResponseEntity<UserDto> auth(@Valid @RequestBody AuthenticactionAuthDto newUser) {
@@ -62,9 +59,8 @@ public class AuthenticationController {
         if (optionalUser.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, header.userFound);
         }
-        Users users = convert(newUser);
-        usersRspository.save(users);
-        return ResponseEntity.status(HttpStatus.CREATED).body(converToDto(users));
+        UserDto users = userDetailsService.save(newUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(users);
     }
 
     @PostMapping(LOGIN)
@@ -82,27 +78,4 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
         }
     }
-
-    private Users convert(AuthenticactionAuthDto authDto) {
-        Users users = new Users();
-        users.setEmail(authDto.getEmail());
-        users.setFirstName(authDto.getFirstName());
-        users.setLastName(authDto.getLastName());
-        users.setPassword(passwordEncoder.encode(authDto.getPassword()));
-        users.setPhoto(authDto.getPhoto());
-        users.setRole(roleRepository.getById(1L));
-        return users;
-    }
-
-    private UserDto converToDto(Users users) {
-        UserDto userDto = new UserDto();
-        userDto.setEmail(users.getEmail());
-        userDto.setFirstName(users.getFirstName());
-        userDto.setLastName(users.getLastName());
-        userDto.setPhoto(users.getPhoto());
-        userDto.setRole(users.getRole().getName());
-        userDto.setCreatedAt(users.getCreatedAt());
-        return userDto;
-    }
-
 }
