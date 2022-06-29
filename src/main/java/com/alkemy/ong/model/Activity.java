@@ -1,7 +1,10 @@
 package com.alkemy.ong.model;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.persistence.*;
 
@@ -9,10 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 
 
 @Entity
@@ -26,23 +26,26 @@ public class Activity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "activity")
     private Long id;
 
     @NotNull(message = "name must not be null")
     private String name;
-    
+
     @NotNull(message = "content must not be null")
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "text")
     private String content;
-    
+
     @NotNull(message = "image must not be null")
     private String image;
-    
+
     private boolean deleted = Boolean.FALSE;
 
     @CreationTimestamp
-    private LocalDate create;
+    @Column(name = "created_at", updatable = false)
+    private Timestamp createdAt;
 
     @UpdateTimestamp
-    private LocalDate update;
+    @Column(name = "modified_at")
+    private Timestamp modifiedAt;
 }
