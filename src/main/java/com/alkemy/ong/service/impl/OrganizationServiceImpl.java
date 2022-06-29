@@ -21,8 +21,6 @@ public class OrganizationServiceImpl implements IOrganizationService {
    @Autowired
    private OrganizationRepository organizationRepository;
 
-    @Autowired
-    OrganizationRepository organizationRepository;
 
     @Override
     public OrganizationDto findById(Long id) {
