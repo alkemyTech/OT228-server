@@ -50,7 +50,7 @@ public class CategoryServiceImpl implements ICategoryService {
 		if (categoryDto.getId() == null) throw new BadRequestException("Category id must not be null.");
 		return categoryRepository.findById(categoryDto.getId())
 				.map(c -> ModelMapperFacade.map(
-						categoryRepository.save(ModelMapperFacade.patchObject(categoryDto, c)),
+						categoryRepository.save(ModelMapperFacade.map(categoryDto, Category.class)),
 						CategoryDto.class))
 				.orElseThrow(() -> new NotFoundException("Category not found."));
 	}
