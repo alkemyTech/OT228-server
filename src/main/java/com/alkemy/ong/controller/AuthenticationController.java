@@ -10,6 +10,7 @@ import com.alkemy.ong.mapper.UserMapper;
 import com.alkemy.ong.model.Users;
 import com.alkemy.ong.repository.RoleRepository;
 import com.alkemy.ong.repository.UsersRspository;
+import com.alkemy.ong.service.impl.EmailServiceImpl;
 import com.alkemy.ong.service.impl.UserDetailsServiceImpl;
 import com.alkemy.ong.util.MessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,24 +43,27 @@ public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsServiceImpl userDetailsService;
     private final UsersRspository usersRspository;
-    private final MessageHandler header;
+    private final MessageHandler messageHandler;
+    private final EmailServiceImpl emailServiceImpl;
 
     @Autowired
-    public AuthenticationController(MessageHandler header, UserDetailsServiceImpl userDetailsService,
-                                    UsersRspository usersRspository, AuthenticationManager authenticationManager) {
-        this.header = header;
+    public AuthenticationController(MessageHandler messageHandler, UserDetailsServiceImpl userDetailsService,
+                                    UsersRspository usersRspository, AuthenticationManager authenticationManager, EmailServiceImpl emailServiceImpl) {
+        this.messageHandler = messageHandler;
         this.userDetailsService = userDetailsService;
         this.usersRspository = usersRspository;
         this.authenticationManager = authenticationManager;
+        this.emailServiceImpl = emailServiceImpl;
     }
 
     @PostMapping()
-    public ResponseEntity<UserDto> auth(@Valid @RequestBody AuthenticactionAuthDto newUser) {
+    public ResponseEntity<UserDto> auth(@Valid @RequestBody AuthenticactionAuthDto newUser) throws Exception {
         Optional<Users> optionalUser = usersRspository.findByEmail(newUser.getEmail());
         if (optionalUser.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, header.userFound);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, messageHandler.userFound);
         }
         UserDto users = userDetailsService.save(newUser);
+        emailServiceImpl.sendRegisterConfirmation(users.getEmail(),users.getFirstName());
         return ResponseEntity.status(HttpStatus.CREATED).body(users);
     }
 

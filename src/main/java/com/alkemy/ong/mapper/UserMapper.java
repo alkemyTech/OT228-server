@@ -24,7 +24,7 @@ public class UserMapper {
         users.setLastName(authDto.getLastName());
         users.setPassword(passwordEncoder.encode(authDto.getPassword()));
         users.setPhoto(authDto.getPhoto());
-        users.setRole(roleRepository.findByName("ROLE_USER"));
+        users.setRole(roleRepository.findByName("USER"));
         return users;
     }
 
