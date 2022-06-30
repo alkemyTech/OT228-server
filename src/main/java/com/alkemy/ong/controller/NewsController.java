@@ -1,6 +1,5 @@
 package com.alkemy.ong.controller;
 
-
 import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.service.INewsService;
 
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -27,5 +27,11 @@ public class NewsController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newsService.createNews(newsDto));
     }
 
+
+    @GetMapping("/id/{newsId}")
+    public ResponseEntity<?> findByID(@PathVariable Long newsId){
+
+        return new ResponseEntity<>(newsService.getNewsById(newsId), HttpStatus.OK);
+    }
 
 }

@@ -6,11 +6,13 @@ import com.alkemy.ong.model.Users;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class NewsDto {
 
     private Long id;
