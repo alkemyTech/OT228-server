@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -46,6 +47,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         userRepository.save(user);
         return userMapper.userEntity2UserDto(user);
     }
-
 
 }
