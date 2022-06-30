@@ -18,12 +18,16 @@ import com.alkemy.ong.mappers.ModelMapperFacade;
 import com.alkemy.ong.model.Category;
 import com.alkemy.ong.repository.ICategoryRepository;
 import com.alkemy.ong.service.ICategoryService;
+import com.alkemy.ong.util.MessageHandler;
 
 @Service
 public class CategoryServiceImpl implements ICategoryService {
 	
 	@Autowired
 	private ICategoryRepository categoryRepository;
+	
+	@Autowired
+	private MessageHandler messageHandler;
   
   @Autowired
   private ModelMapper mapper;
@@ -48,12 +52,12 @@ public class CategoryServiceImpl implements ICategoryService {
 
 	@Override
 	public CategoryDto update(CategoryDto categoryDto) {
-		if (categoryDto.getId() == null) throw new BadRequestException("Category id must not be null.");
+		if (categoryDto.getId() == null) throw new BadRequestException(messageHandler.categoryIdRequired);
 		return categoryRepository.findById(categoryDto.getId())
 				.map(c -> ModelMapperFacade.map(
 						categoryRepository.save(ModelMapperFacade.map(categoryDto, Category.class)),
 						CategoryDto.class))
-				.orElseThrow(() -> new NotFoundException("Category not found."));
+				.orElseThrow(() -> new NotFoundException(messageHandler.categoryNotFound));
 	}
 
     @Override

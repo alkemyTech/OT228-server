@@ -10,10 +10,16 @@ import org.springframework.stereotype.Component;
 public class MessageHandler {
 
     public final String userFound;
+    public final String categoryIdRequired;
+    public final String categoryNotFound;
 
     @Autowired
-    public MessageHandler(@Value("${user.found}") String userFound) {
+    public MessageHandler(@Value("${user.found}") String userFound,
+    		@Value("${category-id.required}") String categoryIdRequired,
+    		@Value("${category.not-found}") String categoryNotFound) {
         this.userFound = userFound;
+        this.categoryIdRequired = categoryIdRequired;
+        this.categoryNotFound = categoryNotFound;
     }
 
 }
