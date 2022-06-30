@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
+//.antMatchers(HttpMethod.GET, "/categories/**").permitAll()
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
@@ -47,13 +48,13 @@ public class CategoryController {
         }
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<CategoryDto> getCategory(@PathVariable("id") Long categoriesId) {
-//        Optional<CategoryDto> optionalCategory = categoryService.findById(categoriesId);
-//        if (optionalCategory.isEmpty())
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, messageHandler.categoryNotFound);
-//        return ResponseEntity.status(HttpStatus.FOUND).body(optionalCategory.get());
-//
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryDto> getCategory(@PathVariable("id") Long categoriesId) {
+        Optional<CategoryDto> optionalCategory = categoryService.findById(categoriesId);
+        if (optionalCategory.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, messageHandler.categoryNotFound);
+        return ResponseEntity.status(HttpStatus.FOUND).body(optionalCategory.get());
+
+    }
 
 }

@@ -12,12 +12,12 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
+@Data
 @Entity
 @Table(name = "member")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE member SET delete = true WHERE id=?")
+@SQLDelete(sql = "UPDATE member SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
 public class Member {
 
@@ -50,5 +50,5 @@ public class Member {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    private boolean delete = Boolean.FALSE;
+    private boolean deleted = Boolean.FALSE;
 }

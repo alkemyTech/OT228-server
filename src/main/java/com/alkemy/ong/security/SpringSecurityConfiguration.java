@@ -22,54 +22,55 @@ import com.alkemy.ong.security.jwt.JwtTokenFilter;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private UserDetailsService userDetailsService;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-	@Autowired
-	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-	@Autowired
-	private JwtTokenFilter jwtTokenFilter;
+    @Autowired
+    private JwtTokenFilter jwtTokenFilter;
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService);
-	}
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService);
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		// Enable CORS and disable CSRF
-		http.cors().and().csrf().disable()
-		// Set session management to stateless
-				.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				.and()
-		// Set unauthorized requests exception handler
-				.exceptionHandling()
-				.authenticationEntryPoint(jwtAuthenticationEntryPoint)
-				.and()
-		// Set permissions on endpoints
-				.authorizeRequests()
-				// Public endpoints
-				.antMatchers(HttpMethod.POST, "/auth/**").permitAll()
-				// Private endpoints
-				.antMatchers(HttpMethod.POST, "/organization/public").hasRole("ADMIN")
-				.antMatchers("/categories/**","news/id/**").hasRole("ADMIN")
-				.anyRequest().authenticated()
-				.and()
-		// Add JWT Token Filter
-				.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);		
-	}
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        // Enable CORS and disable CSRF
+        http.cors().and().csrf().disable()
+                // Set session management to stateless
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                // Set unauthorized requests exception handler
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .and()
+                // Set permissions on endpoints
+                .authorizeRequests()
+                // Public endpoints
+                .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/categories/**").permitAll()
+                // Private endpoints
+                .antMatchers(HttpMethod.POST, "/organization/public").hasRole("ADMIN")
+                .antMatchers("/categories/**", "news/id/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                // Add JWT Token Filter
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+    }
 
-	@Bean
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 }
