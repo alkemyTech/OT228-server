@@ -13,7 +13,7 @@ import java.util.Optional;
 public class UsersServiceImpl implements IUsersService {
 
     @Autowired
-    UsersRepository usersRepository;
+    private UsersRepository usersRepository;
 
     @Override
     public boolean partialUpdate(Map<String, Object> partialUpdate,  Long usersId) {

@@ -20,7 +20,7 @@ public class UsersController {
 
 
     @Autowired
-    IUsersService usersService;
+    private IUsersService usersService;
 
     @PatchMapping("/{id}")
     public ResponseEntity<?> partialUpdate(@RequestBody Map<String, Object> partialUpdate, @PathVariable("id") Long usersId) {
