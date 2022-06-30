@@ -8,6 +8,7 @@ import com.alkemy.ong.repository.ICategoryRepository;
 import com.alkemy.ong.repository.INewsRepository;
 import com.alkemy.ong.service.INewsService;
 
+import com.alkemy.ong.util.MessageHandler;
 import org.modelmapper.ModelMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,12 @@ public class NewsServiceImpl implements INewsService {
     @Autowired
     private ModelMapper mapper;
 
+    private MessageHandler messageHandler;
+
     @Override
     public NewsDto createNews(NewsDto newsDto) {
         News news = toEntity(newsDto);
-        Category category = categoryRepository.findById(newsDto.getCategory().getId()).orElseThrow(() -> new ResourceNotFoundException("That category does not exists"));
+        Category category = categoryRepository.findById(newsDto.getCategory().getId()).orElseThrow(() -> new ResourceNotFoundException(messageHandler.categoryNotFound));
         news.setCategory(category);
         news = newsRepository.save(news);
 

@@ -1,13 +1,14 @@
 package com.alkemy.ong.exception;
 
+import com.alkemy.ong.util.MessageHandler;
+
 public class ResourceNotFoundException extends RuntimeException{
 
     private static final long serialVersionUID = 2L;
-
-    private static final String ERROR_TYPE = "Error (404) Resource Not Found Exception.";
+    private static MessageHandler messageHandler;
 
     public ResourceNotFoundException(String errorDetails) {
-        super(ERROR_TYPE + " " + errorDetails);
+        super( messageHandler.resourceNotFound + " " + errorDetails);
     }
 
 }
