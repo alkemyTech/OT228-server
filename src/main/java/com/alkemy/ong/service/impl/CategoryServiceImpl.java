@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,8 +40,22 @@ public class CategoryServiceImpl implements ICategoryService {
     public List<CategoryNameDto> viewAllCategoryNames() {
         List<CategoryNameDto> categoryNameDtos = new ArrayList<>();
         categoryRepository.findAll()
+                .stream()
                 .forEach(category -> categoryNameDtos.add(mapper.map(category, CategoryNameDto.class)));
         return categoryNameDtos;
+    }
+
+    @Override
+    public boolean delete(Long categoriesId) {
+        return findById(categoriesId).map(categoryDto -> {
+            categoryRepository.delete(mapper.map(categoryDto,Category.class));
+            return true;
+        }).orElse(false);
+    }
+
+    @Override
+    public Optional<CategoryDto> findById(Long categoriesId) {
+        return Optional.of(mapper.map(categoryRepository.findById(categoriesId), CategoryDto.class));
     }
 
 }
