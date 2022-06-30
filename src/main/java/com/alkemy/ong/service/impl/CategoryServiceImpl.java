@@ -20,22 +20,23 @@ import com.alkemy.ong.service.ICategoryService;
 
 @Service
 public class CategoryServiceImpl implements ICategoryService {
-	
-	@Autowired
-	private ICategoryRepository categoryRepository;
-  
-  @Autowired
-  private ModelMapper mapper;
-	
-	@Override
-	public CategoryDto save(CategoryDto categoryDto) {
-        if (!categoryDto.getName().matches("^[a-zA-Z]*$")) throw new BadRequestException("The name only supports alphabetic characters.");
-		return ModelMapperFacade.map(
-				categoryRepository.save(ModelMapperFacade.map(
-						categoryDto, Category.class)),
-				CategoryDto.class);
-	}
-  
+
+    @Autowired
+    private ICategoryRepository categoryRepository;
+
+    @Autowired
+    private ModelMapper mapper;
+
+    @Override
+    public CategoryDto save(CategoryDto categoryDto) {
+        if (!categoryDto.getName().matches("^[a-zA-Z]*$"))
+            throw new BadRequestException("The name only supports alphabetic characters.");
+        return ModelMapperFacade.map(
+                categoryRepository.save(ModelMapperFacade.map(
+                        categoryDto, Category.class)),
+                CategoryDto.class);
+    }
+
     @Override
     public List<CategoryNameDto> viewAllCategoryNames() {
         List<CategoryNameDto> categoryNameDtos = new ArrayList<>();
@@ -48,7 +49,7 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public boolean delete(Long categoriesId) {
         return findById(categoriesId).map(categoryDto -> {
-            categoryRepository.delete(mapper.map(categoryDto,Category.class));
+            categoryRepository.delete(mapper.map(categoryDto, Category.class));
             return true;
         }).orElse(false);
     }

@@ -11,11 +11,14 @@ public class MessageHandler {
 
     public final String userFound;
     public final String newsNotFound;
+    public final String categoryNotFound;
 
     @Autowired
-    public MessageHandler(@Value("${user.found}") String userFound, @Value("${news.notFound}")String newsNotFound) {
+    public MessageHandler(@Value("${user.found}") String userFound, @Value("${news.notFound}") String newsNotFound,
+                          @Value("${category.notFound}") String categoryNotFound) {
         this.userFound = userFound;
         this.newsNotFound = newsNotFound;
+        this.categoryNotFound = categoryNotFound;
     }
 
 }
