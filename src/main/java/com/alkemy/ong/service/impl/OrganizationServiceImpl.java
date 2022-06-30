@@ -21,10 +21,10 @@ public class OrganizationServiceImpl implements IOrganizationService {
    @Autowired
    private OrganizationRepository organizationRepository;
 
+
     @Override
     public OrganizationDto findById(Long id) {
-        OrganizationDto organizationFound = objectMapper.convertValue(organizationRepository.findById(id), OrganizationDto.class);
-        return organizationFound;
+        return objectMapper.convertValue(organizationRepository.findById(id), OrganizationDto.class);
     }
 
     @Override
