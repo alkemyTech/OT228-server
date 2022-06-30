@@ -1,9 +1,12 @@
 package com.alkemy.ong.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.hibernate.annotations.*;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
-import javax.management.relation.Role;
+
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -11,6 +14,8 @@ import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?")
@@ -39,7 +44,7 @@ public class Users {
     @Column(unique = true)
     private String photo;
 
-    @OneToOne
+    @ManyToOne
     @NotNull(message = "Role must not be null.")
     @JoinColumn(name = "role_id")
     private Role role;

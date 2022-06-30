@@ -1,7 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.model.Users;
-import com.alkemy.ong.repository.UsersRepository;
+import com.alkemy.ong.repository.UsersRspository;
 import com.alkemy.ong.service.IUsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ReflectionUtils;
@@ -13,7 +13,7 @@ import java.util.Optional;
 public class UsersServiceImpl implements IUsersService {
 
     @Autowired
-    private UsersRepository usersRepository;
+    private UsersRspository usersRepository;
 
     @Override
     public boolean partialUpdate(Map<String, Object> partialUpdate,  Long usersId) {
