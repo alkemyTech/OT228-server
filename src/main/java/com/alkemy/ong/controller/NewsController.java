@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/news")
 public class NewsController {
@@ -19,5 +21,12 @@ public class NewsController {
 
         return new ResponseEntity<>(newsService.getNewsById(newsId), HttpStatus.OK);
     }
+
+    @PutMapping("/id/{newsId}")
+    public ResponseEntity<?> updateNews(@RequestBody Map<String, Object> update, @PathVariable Long newsId){
+
+        return new ResponseEntity<>(newsService.Update(update,newsId),HttpStatus.OK);
+    }
+
 
 }
