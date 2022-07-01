@@ -8,5 +8,5 @@ import java.util.Map;
 public interface INewsService {
 
     NewsDto getNewsById(Long id);
-    NewsDto Update(Map<String,Object> update, Long newsId);
+    NewsDto Update(NewsDto newsDto, Long newsId);
 }
