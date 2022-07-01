@@ -1,17 +1,24 @@
 package com.alkemy.ong.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.management.relation.Role;
+import java.sql.Timestamp;
 
-@Data
+@Getter
+@Setter
 public class UserDto {
 
     private String firstName;
+
     private String lastName;
+
     private String email;
-    private String password;
+
     private String photo;
-    private Role role;
+
+    private String role;
+
+    private Timestamp createdAt;
 
 }
