@@ -14,7 +14,10 @@ import com.alkemy.ong.util.MessageHandler;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -50,9 +53,21 @@ public class NewsServiceImpl implements INewsService {
         return ModelMapperFacade.map(news,NewsDto.class);
 
     }
+
+    @Override
+    public NewsDto Update(NewsDto newsDto, Long newsId) throws ResourceNotFoundException {
+        Optional<News> news = newsRepository.findById(newsId);
+
+        if(news.isEmpty()){
+            throw new ResourceNotFoundException(messageHandler.newsNotFound);
+        }else{
+            News newsToUpdate = toEntity(newsDto);
+            newsRepository.save(newsToUpdate);
+        }
+        return getNewsById(newsId);
+    }
   
-  
-   private NewsDto toDto(News news) {
+    private NewsDto toDto(News news) {
         return mapper.map(news, NewsDto.class);
     }
 

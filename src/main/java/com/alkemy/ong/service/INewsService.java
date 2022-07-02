@@ -8,4 +8,6 @@ public interface INewsService {
 
     NewsDto getNewsById(Long id);
 
+    NewsDto Update(NewsDto newsDto, Long newsId);
+
 }
