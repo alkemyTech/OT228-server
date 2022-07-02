@@ -15,13 +15,16 @@ public class MessageHandler {
     public final String activityNotFound;
     public final String newsNotFound;
     public final String categoryIdRequired;
+    public final String usersNotFound;
+
     @Autowired
     public MessageHandler(@Value("${user.found}") String userFound,
     		@Value("${news.notFound}")String newsNotFound,
     		@Value("${category-id.required}") String categoryIdRequired,
     		@Value("${category.notFound}") String categoryNotFound,
-            @Value("${category.notFound}") String activityNotFound,
-    		@Value ("${resource.notFound}") String resourceNotFound) {
+        @Value("${category.notFound}") String activityNotFound,
+    		@Value ("${resource.notFound}") String resourceNotFound,
+    		@Value("${users.not-found}") String usersNotFound) {
 
         this.userFound = userFound;
         this.resourceNotFound= resourceNotFound;
@@ -29,6 +32,7 @@ public class MessageHandler {
         this.activityNotFound = activityNotFound;
         this.newsNotFound = newsNotFound;
         this.categoryIdRequired = categoryIdRequired;
+        this.usersNotFound = usersNotFound;
     }
 
 }
