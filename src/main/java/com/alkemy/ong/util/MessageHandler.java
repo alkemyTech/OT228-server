@@ -12,6 +12,7 @@ public class MessageHandler {
     public final String userFound;
     public final String resourceNotFound;
     public final String categoryNotFound;
+    public final String activityNotFound;
     public final String newsNotFound;
     public final String categoryIdRequired;
     public final String usersNotFound;
@@ -21,12 +22,14 @@ public class MessageHandler {
     		@Value("${news.notFound}")String newsNotFound,
     		@Value("${category-id.required}") String categoryIdRequired,
     		@Value("${category.notFound}") String categoryNotFound,
+        @Value("${category.notFound}") String activityNotFound,
     		@Value ("${resource.notFound}") String resourceNotFound,
     		@Value("${users.not-found}") String usersNotFound) {
 
         this.userFound = userFound;
         this.resourceNotFound= resourceNotFound;
         this.categoryNotFound= categoryNotFound;
+        this.activityNotFound = activityNotFound;
         this.newsNotFound = newsNotFound;
         this.categoryIdRequired = categoryIdRequired;
         this.usersNotFound = usersNotFound;
