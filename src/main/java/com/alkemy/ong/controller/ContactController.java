@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alkemy.ong.dto.ContactDto;
-import com.alkemy.ong.service.ContactsService;
+import com.alkemy.ong.service.IContactsService;
 
 @RestController
 @RequestMapping(ContactController.CONTACTS)
@@ -20,10 +20,10 @@ public class ContactController {
 	protected static final String CONTACTS = "/contacts";
 
 	@Autowired
-	private ContactsService contactService;
+	private IContactsService contactService;
 	
 	@PostMapping
-	public ResponseEntity<?> create(@Valid @RequestBody ContactDto contactDto) {
+	public ResponseEntity<?> create(@Valid @RequestBody ContactDto contactDto) throws Exception {
 		return ResponseEntity.status(HttpStatus.CREATED).body(contactService.save(contactDto));
 	}
 
