@@ -10,7 +10,9 @@ public interface ICategoryService {
 
 	CategoryDto save(CategoryDto categoryDto);
 
-    List<CategoryNameDto> viewAllCategoryNames();
+	CategoryDto update(CategoryDto categoryDto);
+
+	List<CategoryNameDto> viewAllCategoryNames();
 
     boolean delete(Long categoriesId);
 
