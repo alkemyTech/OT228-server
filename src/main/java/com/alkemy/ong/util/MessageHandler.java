@@ -22,7 +22,8 @@ public class MessageHandler {
 
 
     @Autowired
-    public MessageHandler(@Value("${user.found}") String userFound,
+    public MessageHandler(
+        @Value("${user.found}") String userFound,
     		@Value("${news.notFound}")String newsNotFound,
     		@Value("${category-id.required}") String categoryIdRequired,
     		@Value("${category.notFound}") String categoryNotFound,

@@ -63,7 +63,7 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public boolean delete(Long categoriesId) {
         return findById(categoriesId).map(categoryDto -> {
-            categoryRepository.delete(mapper.map(categoryDto,Category.class));
+            categoryRepository.delete(mapper.map(categoryDto, Category.class));
             return true;
         }).orElse(false);
     }

@@ -8,6 +8,7 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 public class AwsConfig {
@@ -24,9 +25,8 @@ public class AwsConfig {
     private String region;
 
     @Bean
-    public AmazonS3 getS3Client(){
-        BasicAWSCredentials credentials =  new BasicAWSCredentials(accessKeyId, accessSecretKey);
-        return AmazonS3ClientBuilder.standard().withRegion(Regions.fromName(region))
-                .withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
+    public AmazonS3 getS3Client() {
+        BasicAWSCredentials credentials = new BasicAWSCredentials(accessKeyId, accessSecretKey);
+        return AmazonS3ClientBuilder.standard().withRegion(Regions.fromName(region)).withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
     }
 }
