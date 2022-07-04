@@ -49,6 +49,15 @@ public class Organization {
 	
     @Column(name = "about_us_text", columnDefinition = "TEXT")
 	private String aboutUsText;
+
+	@Column(name = "facebook_url")
+	private String facebookUrl;
+
+	@Column(name = "instagram_url")
+	private String instragramUrl;
+
+	@Column(name = "linkedid_url")
+	private String linkedinUrl;
 	
 	@CreationTimestamp	
 	@Column(name = "created_at", updatable = false)
