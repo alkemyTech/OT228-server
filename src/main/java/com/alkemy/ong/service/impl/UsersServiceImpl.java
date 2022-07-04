@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UsersServiceImpl implements IUsersService {
@@ -40,12 +41,11 @@ public class UsersServiceImpl implements IUsersService {
         return usersRepository.findById(usersId);
     }
 
-	@Override
-	public List<UserDto> findAll() {
-		return usersRepository.findAll()
-				.stream()
-				.map(u -> ModelMapperFacade.map(u, UserDto.class))
-				.toList();
-	}
+    @Override
+    public List<UserDto> findAll() {
+        return usersRepository.findAll()
+                .stream()
+                .map(u -> ModelMapperFacade.map(u, UserDto.class)).collect(Collectors.toList());
+    }
 
 }

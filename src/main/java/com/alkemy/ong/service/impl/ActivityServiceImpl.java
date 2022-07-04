@@ -10,7 +10,9 @@ import com.alkemy.ong.service.IActivityService;
 import com.alkemy.ong.util.MessageHandler;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ActivityServiceImpl implements IActivityService {
 
     @Autowired
@@ -28,7 +30,7 @@ public class ActivityServiceImpl implements IActivityService {
     }
 
     @Override
-    public ActivityDto update(ActivityDto activityDto, Long id){
+    public ActivityDto update(ActivityDto activityDto, Long id) {
 
         return activityRepository.findById(id)
                 .map(c -> ModelMapperFacade.map(

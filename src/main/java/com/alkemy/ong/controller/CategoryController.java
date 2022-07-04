@@ -22,7 +22,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
-//.antMatchers(HttpMethod.GET, "/categories/**").permitAll()
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
@@ -40,12 +39,12 @@ public class CategoryController {
     public ResponseEntity<?> create(@Valid @RequestBody CategoryDto categoryDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.save(categoryDto));
     }
-	
-	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody CategoryDto categoryDto) {
-		categoryDto.setId(id);
-		return ResponseEntity.status(HttpStatus.OK).body(categoryService.update(categoryDto));
-	}
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody CategoryDto categoryDto) {
+        categoryDto.setId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.update(categoryDto));
+    }
 
     @GetMapping
     public ResponseEntity<?> findAllCategorysName() {

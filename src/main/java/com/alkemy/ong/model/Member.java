@@ -14,10 +14,10 @@ import java.sql.Timestamp;
 
 @Data
 @Entity
-@Table(name = "member")
+@Table(name = "members")
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE member SET deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE members SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
 public class Member {
 

@@ -41,16 +41,16 @@ public class EmailServiceImpl implements IEmailService {
         SendGrid sendGrid = new SendGrid(apiKey);
         Request request = new Request();
 
-            request.setMethod(Method.POST);
-            request.setEndpoint("mail/send");
-            request.setBody(mail.build());
-            Response response = sendGrid.api(request);
+        request.setMethod(Method.POST);
+        request.setEndpoint("mail/send");
+        request.setBody(mail.build());
+        Response response = sendGrid.api(request);
 
-            if (response.getStatusCode() != HttpStatus.ACCEPTED.value()) {
-                logger.info(response.getBody());
-                logger.info(messageHandler.errorEmail);
-                throw new EmailException();
-            }
+        if (response.getStatusCode() != HttpStatus.ACCEPTED.value()) {
+            logger.info(response.getBody());
+            logger.info(messageHandler.errorEmail);
+            throw new EmailException();
+        }
     }
 
     @Override
