@@ -14,19 +14,22 @@ public class MessageHandler {
     public final String categoryNotFound;
     public final String newsNotFound;
     public final String categoryIdRequired;
+    public final String slidesNotFound;
 
     @Autowired
     public MessageHandler(@Value("${user.found}") String userFound,
     		@Value("${news.notFound}")String newsNotFound,
     		@Value("${category-id.required}") String categoryIdRequired,
     		@Value("${category.notFound}") String categoryNotFound,
-    		@Value ("${resource.notFound}") String resourceNotFound) {
+    		@Value ("${resource.notFound}") String resourceNotFound,
+    		@Value("${slides.not-found}") String slidesNotFound) {
 
         this.userFound = userFound;
         this.resourceNotFound= resourceNotFound;
         this.categoryNotFound= categoryNotFound;
         this.newsNotFound = newsNotFound;
         this.categoryIdRequired = categoryIdRequired;
+        this.slidesNotFound = slidesNotFound;
     }
 
 }
