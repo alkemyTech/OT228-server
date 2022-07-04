@@ -8,9 +8,9 @@ import org.modelmapper.spi.MappingContext;
 
 public interface ModelMapperFacade {
 
-	public static  <S, T> T map(S source, Class<T> destinationType) {
-		return new ModelMapper().map(source, destinationType);
-	}
+    public static <S, T> T map(S source, Class<T> destinationType) {
+        return new ModelMapper().map(source, destinationType);
+    }
 
 	public static  <S, T> T map(S source, Class<T> destinationType, List<String> skipFields) {
 		ModelMapper modelMapper = new ModelMapper();
