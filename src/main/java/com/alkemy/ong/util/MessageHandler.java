@@ -15,11 +15,11 @@ public class MessageHandler {
     public final String activityNotFound;
     public final String newsNotFound;
     public final String categoryIdRequired;
+    public final String slidesNotFound;
     public final String welcomeEmail;
     public final String errorEmail;
     public final String contactEmail;
     public final String usersNotFound;
-
 
     @Autowired
     public MessageHandler(
@@ -28,6 +28,7 @@ public class MessageHandler {
     		@Value("${category-id.required}") String categoryIdRequired,
     		@Value("${category.notFound}") String categoryNotFound,
     		@Value ("${resource.notFound}") String resourceNotFound,
+    		@Value("${slides.not-found}") String slidesNotFound) {
         @Value("${welcome.emailText}") String welcomeEmail,
         @Value("${error.emailText}") String errorEmail,
         @Value("${contact.emailText}") String contactEmail,
@@ -40,6 +41,7 @@ public class MessageHandler {
         this.activityNotFound = activityNotFound;
         this.newsNotFound = newsNotFound;
         this.categoryIdRequired = categoryIdRequired;
+        this.slidesNotFound = slidesNotFound;
         this.welcomeEmail = welcomeEmail;
         this.errorEmail = errorEmail;
         this.contactEmail = contactEmail;
