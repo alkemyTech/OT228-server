@@ -2,8 +2,11 @@ package com.alkemy.ong.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.alkemy.ong.exception.ResourceNotFoundException;
+import com.alkemy.ong.model.News;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +47,18 @@ public class SlideServiceImpl implements ISlideService {
 						slideRepository.save(ModelMapperFacade.map(slideDto, Slide.class)),
 						SlideDto.class))
 				.orElseThrow(() -> new NotFoundException(messageHandler.slideNotFound));
+	}
+
+	@Override
+	public boolean delete(Long id) {
+		Optional<Slide> slide = slideRepository.findById(id);
+
+		if(slide.isPresent()){
+			slideRepository.delete(ModelMapperFacade.map(slide, Slide.class));
+			return true;
+		}else{
+			throw new ResourceNotFoundException((messageHandler.newsNotFound));
+		}
 	}
 
 }
