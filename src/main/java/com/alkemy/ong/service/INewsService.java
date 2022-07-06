@@ -10,4 +10,6 @@ public interface INewsService {
 
     NewsDto Update(NewsDto newsDto, Long newsId);
 
+    boolean delete(Long id);
+
 }

@@ -47,7 +47,7 @@ public class NewsServiceImpl implements INewsService {
     @Override
     public NewsDto getNewsById(Long id) throws ResourceNotFoundException{
         Optional<News> news =newsRepository.findById(id);
-        if (!news.isPresent()){
+        if (news.isEmpty()){
             throw new ResourceNotFoundException(messageHandler.newsNotFound);
         }
         return ModelMapperFacade.map(news,NewsDto.class);
@@ -66,7 +66,20 @@ public class NewsServiceImpl implements INewsService {
         }
         return getNewsById(newsId);
     }
-  
+
+    @Override
+    public boolean delete(Long id) {
+        Optional<News> news = newsRepository.findById(id);
+
+        if (news.isEmpty()){
+            throw new ResourceNotFoundException((messageHandler.newsNotFound));
+        }else{
+            newsRepository.delete(ModelMapperFacade.map(news,News.class));
+            return true;
+        }
+
+    }
+
     private NewsDto toDto(News news) {
         return mapper.map(news, NewsDto.class);
     }
