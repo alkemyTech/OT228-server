@@ -1,8 +1,9 @@
 package com.alkemy.ong.service.impl;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import com.alkemy.ong.service.IEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import com.alkemy.ong.mappers.ModelMapperFacade;
 import com.alkemy.ong.model.Contacts;
 import com.alkemy.ong.repository.ContactsRepository;
 import com.alkemy.ong.service.IContactsService;
+import com.alkemy.ong.service.IEmailService;
 
 @Service
 public class ContactServiceImpl implements IContactsService {
@@ -40,6 +42,14 @@ public class ContactServiceImpl implements IContactsService {
 	@Override
 	public void delete(Long id) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public List<ContactDto> findAll() {
+		return contactRepository.findAll()
+				.stream()
+				.map(s -> ModelMapperFacade.map(s, ContactDto.class))
+				.collect(Collectors.toList());
 	}
 
 }
