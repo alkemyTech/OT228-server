@@ -7,5 +7,7 @@ import com.alkemy.ong.dto.SlideDto;
 public interface ISlideService {
 
 	List<SlideDto> findAll();
+	
+	SlideDto update(SlideDto slideDto);
 
 }

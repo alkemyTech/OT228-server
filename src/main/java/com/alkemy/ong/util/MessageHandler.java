@@ -20,20 +20,24 @@ public class MessageHandler {
     public final String errorEmail;
     public final String contactEmail;
     public final String usersNotFound;
+    public final String slideNotFound;
+    public final String slideIdRequired;
 
     @Autowired
     public MessageHandler(
-        @Value("${user.found}") String userFound,
+    		@Value("${user.found}") String userFound,
     		@Value("${news.notFound}")String newsNotFound,
     		@Value("${category-id.required}") String categoryIdRequired,
     		@Value("${category.notFound}") String categoryNotFound,
     		@Value ("${resource.notFound}") String resourceNotFound,
-    		@Value("${slides.not-found}") String slidesNotFound) {
-        @Value("${welcome.emailText}") String welcomeEmail,
-        @Value("${error.emailText}") String errorEmail,
-        @Value("${contact.emailText}") String contactEmail,
-        @Value("${category.notFound}") String activityNotFound,
-    		@Value("${users.not-found}") String usersNotFound) {
+    		@Value("${slides.not-found}") String slidesNotFound,
+        	@Value("${welcome.emailText}") String welcomeEmail,
+        	@Value("${error.emailText}") String errorEmail,
+        	@Value("${contact.emailText}") String contactEmail,
+        	@Value("${category.notFound}") String activityNotFound,
+    		@Value("${users.not-found}") String usersNotFound,
+    		@Value("${slide.notFound}") String slideNotFound,
+    		@Value("${slide-id.required}") String slideIdRequired) {
 
         this.userFound = userFound;
         this.resourceNotFound= resourceNotFound;
@@ -46,6 +50,8 @@ public class MessageHandler {
         this.errorEmail = errorEmail;
         this.contactEmail = contactEmail;
         this.usersNotFound = usersNotFound;
+        this.slideNotFound = slideNotFound;
+        this.slideIdRequired = slideIdRequired;
 
     }
 
