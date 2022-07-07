@@ -1,9 +1,10 @@
 package com.alkemy.ong.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import com.alkemy.ong.dto.ContactDto;
 import com.alkemy.ong.model.Contacts;
-
-import java.util.Optional;
 
 public interface IContactsService {
 
@@ -12,5 +13,7 @@ public interface IContactsService {
 	ContactDto save(ContactDto contactDto) throws Exception;
 
 	void delete(Long id);
+	
+	List<ContactDto> findAll();
 
 }

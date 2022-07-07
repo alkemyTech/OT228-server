@@ -22,6 +22,7 @@ public class MessageHandler {
     public final String usersNotFound;
     public final String slideNotFound;
     public final String slideIdRequired;
+    public final String contactsNotFound;
 
     @Autowired
     public MessageHandler(
@@ -37,7 +38,8 @@ public class MessageHandler {
         	@Value("${category.notFound}") String activityNotFound,
     		@Value("${users.not-found}") String usersNotFound,
     		@Value("${slide.notFound}") String slideNotFound,
-    		@Value("${slide-id.required}") String slideIdRequired) {
+    		@Value("${slide-id.required}") String slideIdRequired,
+    		@Value("${contacts.not-found}") String contactsNotFound) {
 
         this.userFound = userFound;
         this.resourceNotFound= resourceNotFound;
@@ -52,6 +54,7 @@ public class MessageHandler {
         this.usersNotFound = usersNotFound;
         this.slideNotFound = slideNotFound;
         this.slideIdRequired = slideIdRequired;
+        this.contactsNotFound = contactsNotFound;
 
     }
 
