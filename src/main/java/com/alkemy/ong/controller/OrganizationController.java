@@ -16,7 +16,7 @@ public class OrganizationController {
     @Autowired
     private IOrganizationService organizationService;
 
-    @GetMapping("/public")
+    @GetMapping("/public/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id){
         OrganizationDto organizationResponse = organizationService.findById(id);
         if (organizationResponse!=null){
