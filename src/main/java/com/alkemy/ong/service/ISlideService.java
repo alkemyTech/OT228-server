@@ -10,6 +10,9 @@ public interface ISlideService {
 	
 	SlideDto update(SlideDto slideDto);
 
+	SlideDto save(SlideDto slideDto);
+
 	boolean delete(Long id);
+
 
 }

@@ -5,8 +5,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
+import com.alkemy.ong.model.Slide;
+import com.alkemy.ong.repository.OrganizationRepository;
+import com.alkemy.ong.service.IAmazonClientFacade;
+import com.alkemy.ong.util.DecodedMultipartFile;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.model.News;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +20,6 @@ import com.alkemy.ong.dto.SlideDto;
 import com.alkemy.ong.exception.BadRequestException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mappers.ModelMapperFacade;
-import com.alkemy.ong.model.Slide;
 import com.alkemy.ong.repository.SlideRepository;
 import com.alkemy.ong.service.ISlideService;
 import com.alkemy.ong.util.MessageHandler;
@@ -27,6 +32,12 @@ public class SlideServiceImpl implements ISlideService {
 
 	@Autowired
 	private MessageHandler messageHandler;
+
+	@Autowired
+	private IAmazonClientFacade amazonClientFacade;
+
+	private OrganizationRepository organizationRepository;
+
 
 	@Override
 	public List<SlideDto> findAll() {
@@ -50,6 +61,23 @@ public class SlideServiceImpl implements ISlideService {
 	}
 
 	@Override
+
+	public SlideDto save(SlideDto slideDto){
+
+			DecodedMultipartFile multiPartFile = new DecodedMultipartFile(slideDto.getImageUrl());
+			String fileUrl = amazonClientFacade.uploadFile(multiPartFile);
+			slideDto.setImageUrl(fileUrl);
+
+			if(slideDto.getOrder() == null){
+				slideDto.setOrder(slideRepository.getMax()+1);
+			}
+
+		return ModelMapperFacade.map(
+				slideRepository.save(ModelMapperFacade.map(
+						slideDto, Slide.class)),
+				SlideDto.class);
+      }
+
 	public boolean delete(Long id) {
 		Optional<Slide> slide = slideRepository.findById(id);
 
@@ -59,6 +87,7 @@ public class SlideServiceImpl implements ISlideService {
 		}else{
 			throw new ResourceNotFoundException((messageHandler.newsNotFound));
 		}
+
 	}
 
 }

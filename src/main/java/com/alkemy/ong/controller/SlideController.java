@@ -1,7 +1,6 @@
 package com.alkemy.ong.controller;
 
 import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import com.alkemy.ong.dto.SlideDto;
 import com.alkemy.ong.service.ISlideService;
 import com.alkemy.ong.util.MessageHandler;
+
 
 @RestController
 @RequestMapping(SlideController.SLIDES)
@@ -39,6 +39,13 @@ public class SlideController {
 		return ResponseEntity.status(HttpStatus.OK).body(slideService.update(slideDto));
 	}
 
+
+	@PostMapping
+	public ResponseEntity<?> createSlide(@Valid @RequestBody SlideDto slideDto){
+		return ResponseEntity.status(HttpStatus.CREATED).body(slideService.save(slideDto));
+    
+    }
+
 	@DeleteMapping(ID)
 	public ResponseEntity<?> deleteNews(@Valid @PathVariable Long slidesId){
 
@@ -47,6 +54,7 @@ public class SlideController {
 		}else{
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
+
 	}
 
 }
