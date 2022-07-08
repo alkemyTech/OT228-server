@@ -12,4 +12,7 @@ public interface ISlideService {
 
 	SlideDto save(SlideDto slideDto);
 
+	boolean delete(Long id);
+
+
 }
