@@ -4,6 +4,8 @@ public interface IEmailService {
 
     public void sendRegisterConfirmation(String receiverEmail, String name) throws Exception;
 
+    public void sendContactConfirmation(String receiverEmail, String name) throws Exception;
+
     public void sendText(String receiver, String subject, String content) throws Exception;
 
 }

@@ -21,5 +21,4 @@ public class UserDto {
 
     private Timestamp createdAt;
 
-
 }

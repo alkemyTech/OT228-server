@@ -41,6 +41,9 @@ public class OrganizationServiceImpl implements IOrganizationService {
         organizationUpdate.setImage(organizationDto.getImage());
         organizationUpdate.setAddress(organizationDto.getAddress());
         organizationUpdate.setPhone(organizationDto.getPhone());
+        organizationUpdate.setFacebookUrl(organizationDto.getFacebookUrl());
+        organizationUpdate.setInstragramUrl(organizationDto.getInstagramUrl());
+        organizationUpdate.setLinkedinUrl(organizationDto.getLinkedinUrl());
 
         organizationRepository.save(organizationUpdate);
 
