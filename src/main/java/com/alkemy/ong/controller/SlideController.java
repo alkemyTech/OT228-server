@@ -57,4 +57,10 @@ public class SlideController {
 
 	}
 
+	@GetMapping(ID)
+	public ResponseEntity<?> findById(@Valid @PathVariable Long id){
+		return new ResponseEntity<>(slideService.getSlideById(id), HttpStatus.OK);
+	}
+
+
 }
