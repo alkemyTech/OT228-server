@@ -88,28 +88,5 @@ public class AuthenticationController {
     }
 
 
-    @GetMapping(MYINFO)
-    public ResponseEntity<?> myInfo(){
-        try {
-           UserDto user = usersService.myInfo();
-           return ResponseEntity.status(HttpStatus.OK).body(user);
-        }
-        catch (Exception e) {
-            Map<String, Object> body = new HashMap<>();
-            body.put("ok", Boolean.FALSE);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
-        }
-    }
 
-//    @GetMapping(MYINFO)
-//    public ResponseEntity<String> getBaseUrl(@RequestHeader HttpServletRequest request) {
-//        String token = request.getHeader("Authorization");
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(token);
-//    }
-//    @GetMapping(MYINFO)
-//    public ResponseEntity<String> getBaseUrl() {
-//        String hola = "esto funciona";
-//        return new ResponseEntity<String>(String.format(hola), HttpStatus.OK);
-//    }
 }
