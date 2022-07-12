@@ -59,7 +59,14 @@ public class TestimonialServiceImpl implements ITestimonialService {
 
     @Override
     public boolean delete(Long id) {
-        return false;
+
+        Optional<Testimonials> testimonials = findById(id);
+        if(testimonials.isPresent()){
+            testimonialsRepository.delete(testimonials.get());
+            return true;
+        }else{
+            throw new NotFoundException(messageHandler.testimoniaNotFound);
+        }
     }
 
 }
