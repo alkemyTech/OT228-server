@@ -23,9 +23,9 @@ public class TestimonialController {
         return new ResponseEntity<>(testimonialDto, HttpStatus.CREATED);
     }
 
-    @PutMapping ResponseEntity updateTestimonial(@Valid @RequestBody TestimonialDto testimonialDto, @Valid @RequestParam Long id){
+    @PutMapping("{id}")
+    ResponseEntity updateTestimonial(@Valid @RequestBody TestimonialDto testimonialDto, @Valid @RequestParam Long id){
         return new ResponseEntity(iTestimonialService.update(testimonialDto,id),HttpStatus.OK);
     }
-
 
 }
