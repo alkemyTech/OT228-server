@@ -1,9 +1,9 @@
 package com.alkemy.ong.model;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.*;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
