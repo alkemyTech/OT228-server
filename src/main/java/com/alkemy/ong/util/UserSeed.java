@@ -20,12 +20,12 @@ public class UserSeed implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        loadRole();
-        loadUser();
+        loadRoles();
+        loadUsers();
 
     }
 
-    private void loadRole(){
+    private void loadRoles(){
         if (roleRepository.count() == 0) {
             createRoles();
         }
@@ -38,7 +38,7 @@ public class UserSeed implements CommandLineRunner {
         roleRepository.save(userRole);
     }
 
-    private void loadUser(){
+    private void loadUsers(){
         Role adminRole = roleRepository.findByName("ADMIN");
         userRepository.save(new Users("admin","1","admin1@gmail.com","12345",adminRole));
         userRepository.save(new Users("admin","2","admin2@gmail.com","12345",adminRole));
