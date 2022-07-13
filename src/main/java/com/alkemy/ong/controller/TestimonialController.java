@@ -25,7 +25,11 @@ public class TestimonialController {
 
     @PutMapping("{id}")
     public ResponseEntity updateTestimonial(@Valid @RequestBody TestimonialDto testimonialDto, @Valid @RequestParam Long id){
-        return new ResponseEntity(iTestimonialService.update(testimonialDto,id),HttpStatus.OK);
+        if(iTestimonialService.update(testimonialDto,id)){
+            return new ResponseEntity(HttpStatus.OK);
+        }else{
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("{id}")

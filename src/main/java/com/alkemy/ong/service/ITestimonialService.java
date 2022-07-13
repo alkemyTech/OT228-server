@@ -13,7 +13,7 @@ public interface ITestimonialService {
 
     List<TestimonialDto> findAll();
 
-    TestimonialDto update(TestimonialDto testimonialDto, Long id);
+    boolean update(TestimonialDto testimonialDto, Long id);
 
     Testimonials save(TestimonialDto testimonialDto);
 

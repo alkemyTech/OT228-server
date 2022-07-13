@@ -35,20 +35,21 @@ public class TestimonialServiceImpl implements ITestimonialService {
 
     @Override
     public List<TestimonialDto> findAll() {
+        //TODO Not implemented yet.
         return null;
     }
 
     @Override
-    public TestimonialDto update(TestimonialDto testimonialDto, Long id) {
+    public boolean update(TestimonialDto testimonialDto, Long id) {
         Optional<Testimonials> testimonials = findById(id);
 
         if(testimonials.isPresent()){
             Testimonials update = modelMapper.map(testimonialDto, Testimonials.class);
             testimonialsRepository.save(update);
+            return true;
         }else{
            throw new NotFoundException(messageHandler.testimoniaNotFound);
         }
-        return modelMapper.map(testimonialsRepository.findById(id), TestimonialDto.class);
     }
 
     @Override
