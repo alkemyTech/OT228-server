@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE users SET deleted = true WHERE users_id = ?")
 @Where(clause = "deleted = false")
 @DynamicInsert
 @DynamicUpdate
