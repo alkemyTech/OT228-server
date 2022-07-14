@@ -21,6 +21,7 @@ public class Slide {
     @Column(columnDefinition = "TEXT")
     private String text;
 
+    @Column(name = "order_number")
     private Integer order;
     
     @NotNull(message = "Organization must not be null.")
