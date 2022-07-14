@@ -90,4 +90,13 @@ public class SlideServiceImpl implements ISlideService {
 
 	}
 
+	@Override
+	public SlideDto getSlideById(Long id) throws ResourceNotFoundException{
+		Optional<Slide> slide = slideRepository.findById(id);
+		if (slide.isEmpty()){
+			throw new ResourceNotFoundException(messageHandler.slideNotFound);
+		}
+		return ModelMapperFacade.map(slide, SlideDto.class);
+	}
+
 }

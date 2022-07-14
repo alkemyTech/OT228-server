@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -21,6 +23,8 @@ import lombok.Data;
 @Entity
 @Table(name = "organizations")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @SQLDelete(sql = "UPDATE organizations SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 public class Organization {
