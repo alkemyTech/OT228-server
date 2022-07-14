@@ -23,9 +23,11 @@ public class MessageHandler {
     public final String slideNotFound;
     public final String slideIdRequired;
     public final String contactsNotFound;
+    public final String organizationNotFound;
     public final String memberNameRegex;
     public final String testimoniaNotFound;
     public final String membersNotFound;
+
 
     @Autowired
     public MessageHandler(
@@ -35,16 +37,17 @@ public class MessageHandler {
     		@Value("${category.notFound}") String categoryNotFound,
     		@Value ("${resource.notFound}") String resourceNotFound,
     		@Value("${slides.not-found}") String slidesNotFound,
-        	@Value("${welcome.emailText}") String welcomeEmail,
-        	@Value("${error.emailText}") String errorEmail,
-        	@Value("${contact.emailText}") String contactEmail,
-        	@Value("${category.notFound}") String activityNotFound,
+        @Value("${welcome.emailText}") String welcomeEmail,
+        @Value("${error.emailText}") String errorEmail,
+        @Value("${contact.emailText}") String contactEmail,
+        @Value("${category.notFound}") String activityNotFound,
     		@Value("${users.not-found}") String usersNotFound,
     		@Value("${slide.notFound}") String slideNotFound,
+        @Value("${organization.notFound}") String organizationNotFound,
     		@Value("${slide-id.required}") String slideIdRequired,
     		@Value("${contacts.not-found}") String contactsNotFound,
     		@Value("${member-name.regex}") String memberNameRegex,
-            @Value("${testimonial.not-found}") String testimoniaNotFound,
+        @Value("${testimonial.not-found}") String testimoniaNotFound,
     		@Value("${members.not-found}") String membersNotFound) {
 
         this.userFound = userFound;
@@ -59,6 +62,7 @@ public class MessageHandler {
         this.contactEmail = contactEmail;
         this.usersNotFound = usersNotFound;
         this.slideNotFound = slideNotFound;
+        this.organizationNotFound = organizationNotFound;
         this.slideIdRequired = slideIdRequired;
         this.contactsNotFound = contactsNotFound;
         this.memberNameRegex = memberNameRegex;
