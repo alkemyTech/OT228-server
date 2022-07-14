@@ -1,15 +1,14 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.OrganizationDto;
-import com.alkemy.ong.dto.OrganizationPublicDto;
 import com.alkemy.ong.dto.SlideDto;
 import com.alkemy.ong.mappers.ModelMapperFacade;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.repository.OrganizationRepository;
 import com.alkemy.ong.repository.SlideRepository;
 import com.alkemy.ong.service.IOrganizationService;
-
 import com.alkemy.ong.util.MessageHandler;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,6 @@ public class OrganizationServiceImpl implements IOrganizationService {
    
    @Autowired
    private OrganizationRepository organizationRepository;
-
    @Autowired
    private SlideRepository slideRepository;
 
@@ -32,7 +30,7 @@ public class OrganizationServiceImpl implements IOrganizationService {
 
 
     @Override
-    public OrganizationPublicDto findById(Long id) {
+    public OrganizationDto findById(Long id) {
         Organization organization = organizationRepository.getById(id);
 
         List<SlideDto> slides = slideRepository.findByOrganizationIdOrderByOrderAsc(organization.getId()).stream()
@@ -40,10 +38,10 @@ public class OrganizationServiceImpl implements IOrganizationService {
                        ent, SlideDto.class))
                 .collect(Collectors.toList());
 
-        OrganizationPublicDto organizationPublicDto= ModelMapperFacade.map(organization,OrganizationPublicDto.class);
-        organizationPublicDto.setSlides(slides);
+        OrganizationDto organizationDto= ModelMapperFacade.map(organization,OrganizationDto.class);
+        organizationDto.setSlides(slides);
 
-        return organizationPublicDto;
+        return organizationDto;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.OrganizationDto;
-import com.alkemy.ong.dto.OrganizationPublicDto;
 import com.alkemy.ong.service.IOrganizationService;
 import com.alkemy.ong.util.MessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class OrganizationController {
 
     @GetMapping("/public/{id}")
     public ResponseEntity<?> getById(@PathVariable(name = "id") Long id){
-        OrganizationPublicDto organizationResponse = organizationService.findById(id);
+        OrganizationDto organizationResponse = organizationService.findById(id);
         if (organizationResponse!=null){
             return ResponseEntity.ok(organizationResponse);
         }
