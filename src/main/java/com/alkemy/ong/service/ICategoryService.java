@@ -1,10 +1,12 @@
 package com.alkemy.ong.service;
 
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.dto.CategoryNameDto;
-
-import java.util.List;
-import java.util.Optional;
 
 public interface ICategoryService {
 
@@ -12,9 +14,10 @@ public interface ICategoryService {
 
 	CategoryDto update(CategoryDto categoryDto);
 
-	List<CategoryNameDto> viewAllCategoryNames();
+	Page<CategoryNameDto> viewAllCategoryNames(Pageable pageable);
 
     boolean delete(Long categoriesId);
 
     Optional<CategoryDto> findById(Long categoriesId);
+
 }
