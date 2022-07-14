@@ -1,8 +1,9 @@
 package com.alkemy.ong.model;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import org.hibernate.annotations.*;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -59,5 +60,12 @@ public class Users {
 
     private boolean deleted = Boolean.FALSE;
 
+    public Users(String firstName, String lastName, String email, String password, Role role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 }
 
