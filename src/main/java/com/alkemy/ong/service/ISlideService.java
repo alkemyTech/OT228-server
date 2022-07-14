@@ -14,5 +14,7 @@ public interface ISlideService {
 
 	boolean delete(Long id);
 
+	SlideDto getSlideById(Long id);
+
 
 }

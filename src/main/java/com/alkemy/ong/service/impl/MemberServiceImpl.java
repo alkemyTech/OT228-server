@@ -1,5 +1,8 @@
 package com.alkemy.ong.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +25,18 @@ public class MemberServiceImpl implements IMemberService {
 
 	@Override
 	public MemberDto save(MemberDto memberDto) {
-        if (!memberDto.getName().matches("^[a-zA-Z]*$")) throw new BadRequestException(messageHandler.memberNameRegex);
+		if (!memberDto.getName().matches("^[a-zA-Z]*$")) throw new BadRequestException(messageHandler.memberNameRegex);
 		return ModelMapperFacade.map(
 				memberRepository.save(ModelMapperFacade.map(
 						memberDto, Member.class)),
 				MemberDto.class);
+	}
+
+	@Override
+	public List<MemberDto> findAll() {
+		return memberRepository.findAll().stream()
+				.map(m -> ModelMapperFacade.map(m, MemberDto.class))
+				.collect(Collectors.toList());
 	}
 
 }

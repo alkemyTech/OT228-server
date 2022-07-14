@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alkemy.ong.dto.MemberDto;
 import com.alkemy.ong.service.IMemberService;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import com.alkemy.ong.util.MessageHandler;
+
 @RestController
 @RequestMapping(MemberController.MEMBERS)
 public class MemberController {
@@ -22,8 +27,19 @@ public class MemberController {
 	@Autowired
 	private IMemberService memberService;
 
+	@Autowired
+	private MessageHandler messageHandler;
+
 	@PostMapping
 	public ResponseEntity<?> create(@Valid @RequestBody MemberDto memberDto) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(memberService.save(memberDto));
 	}
+
+	@GetMapping
+	public ResponseEntity<?> findAll() {
+		List<?> result = memberService.findAll();
+		return ResponseEntity.ok().body(!result.isEmpty() ?
+				result : messageHandler.membersNotFound);
+	}
+
 }
