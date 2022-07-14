@@ -57,4 +57,14 @@ public class SlideController {
 
 	}
 
+	@GetMapping(ID)
+	public ResponseEntity<?> findById(@Valid @PathVariable Long id){
+		SlideDto result = slideService.getSlideById(id);
+		if (result != null)
+		return new ResponseEntity<>(result, HttpStatus.OK);
+		else
+			return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageHandler.slideNotFound);
+	}
+
+
 }
