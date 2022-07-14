@@ -2,7 +2,6 @@ package com.alkemy.ong.controller;
 
 import java.util.List;
 
-import com.alkemy.ong.dto.ActivityDto;
 import com.alkemy.ong.dto.MemberDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
