@@ -6,6 +6,8 @@ import com.alkemy.ong.dto.MemberDto;
 
 public interface IMemberService {
 
+	MemberDto save(MemberDto memberDto);
+
 	List<MemberDto> findAll();
 
 }

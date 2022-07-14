@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -14,6 +16,8 @@ import lombok.Data;
 @Entity
 @Table(name = "roles")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Role {
 
     @Id
@@ -36,5 +40,10 @@ public class Role {
 
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "role")
     private Set<Users> usersSet;
+
+    public Role(String name, String description){
+        this.name = name;
+        this.description = description;
+    }
 
 }
