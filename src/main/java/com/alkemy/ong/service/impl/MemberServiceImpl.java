@@ -3,6 +3,9 @@ package com.alkemy.ong.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.alkemy.ong.exception.ResourceNotFoundException;
+import com.alkemy.ong.model.Member;
+import com.alkemy.ong.util.MessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +20,22 @@ public class MemberServiceImpl implements IMemberService {
 	@Autowired
 	private MemberRepository memberRepository;
 
+	private MessageHandler messageHandler;
+
 	@Override
 	public List<MemberDto> findAll() {
 		return memberRepository.findAll().stream()
 				.map(m -> ModelMapperFacade.map(m, MemberDto.class))
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	public MemberDto update(MemberDto memberDto, Long id) {
+		return memberRepository.findById(id)
+				.map(m -> ModelMapperFacade.map(
+						memberRepository.save(ModelMapperFacade.map(memberDto, Member.class)),
+						MemberDto.class))
+				.orElseThrow(() -> new ResourceNotFoundException(messageHandler.membersNotFound));
 	}
 
 }
