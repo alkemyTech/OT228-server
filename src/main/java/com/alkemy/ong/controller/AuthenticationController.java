@@ -61,14 +61,27 @@ public class AuthenticationController {
     }
 
     @PostMapping()
-    public ResponseEntity<UserDto> auth(@Valid @RequestBody AuthenticactionAuthDto newUser) throws Exception {
+    public ResponseEntity<?> auth(@Valid @RequestBody AuthenticactionAuthDto newUser) {
         Optional<Users> optionalUser = usersRspository.findByEmail(newUser.getEmail());
         if (optionalUser.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, messageHandler.userFound);
         }
-        UserDto users = userDetailsService.save(newUser);
-        emailServiceImpl.sendRegisterConfirmation(users.getEmail(), users.getFirstName());
-        return ResponseEntity.status(HttpStatus.CREATED).body(users);
+        try {
+            userDetailsService.save(newUser);
+            Users usersEntity = usersRspository.getUsersByEmail(newUser.getEmail());
+            emailServiceImpl.sendRegisterConfirmation(usersEntity.getEmail(), usersEntity.getFirstName());
+            Authentication authenticate = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(newUser.getEmail(), newUser.getPassword()));
+            User user = (User) authenticate.getPrincipal();
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.AUTHORIZATION, JwtUtils.generateAccessToken(user))
+                    .build();
+        } catch (Exception e) {
+            Map<String, Object> body = new HashMap<>();
+            body.put(e.getMessage(), Boolean.FALSE);
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body(body);
+        }
+        
     }
 
     @PostMapping(LOGIN)
