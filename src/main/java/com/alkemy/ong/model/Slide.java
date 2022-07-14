@@ -1,6 +1,8 @@
 package com.alkemy.ong.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,6 +10,8 @@ import javax.validation.constraints.NotNull;
 @Data
 @Entity
 @Table(name = "slides")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Slide {
 
     @Id
@@ -21,10 +25,13 @@ public class Slide {
     @Column(columnDefinition = "TEXT")
     private String text;
 
+    @Column(name = "order_number")
     private Integer order;
     
     @NotNull(message = "Organization must not be null.")
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "organization_id")
     private Organization organization;
+
+
 }

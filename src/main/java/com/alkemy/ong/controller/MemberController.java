@@ -1,17 +1,18 @@
 package com.alkemy.ong.controller;
 
-import java.util.List;
+import javax.validation.Valid;
 
-import com.alkemy.ong.dto.MemberDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.alkemy.ong.dto.MemberDto;
 import com.alkemy.ong.service.IMemberService;
-import com.alkemy.ong.util.MessageHandler;
 
-import javax.validation.Valid;
+import java.util.List;
+
+import com.alkemy.ong.util.MessageHandler;
 
 @RestController
 @RequestMapping(MemberController.MEMBERS)
@@ -24,6 +25,11 @@ public class MemberController {
 
 	@Autowired
 	private MessageHandler messageHandler;
+
+	@PostMapping
+	public ResponseEntity<?> create(@Valid @RequestBody MemberDto memberDto) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(memberService.save(memberDto));
+	}
 
 	@GetMapping
 	public ResponseEntity<?> findAll() {
