@@ -40,27 +40,27 @@ public class UserSeed implements CommandLineRunner {
 
     private void loadUsers(){
         Role adminRole = roleRepository.findByName("ADMIN");
-        userRepository.save(new Users("admin","1","admin1@gmail.com","12345",adminRole));
-        userRepository.save(new Users("admin","2","admin2@gmail.com","12345",adminRole));
-        userRepository.save(new Users("admin","3","admin3@gmail.com","12345",adminRole));
-        userRepository.save(new Users("admin","4","admin4@gmail.com","12345",adminRole));
-        userRepository.save(new Users("admin","5","admin5@gmail.com","12345",adminRole));
-        userRepository.save(new Users("admin","6","admin6@gmail.com","12345",adminRole));
-        userRepository.save(new Users("admin","7","admin7@gmail.com","12345",adminRole));
-        userRepository.save(new Users("admin","8","admin8@gmail.com","12345",adminRole));
-        userRepository.save(new Users("admin","9","admin9@gmail.com","12345",adminRole));
-        userRepository.save(new Users("admin","10","admin10@gmail.com","12345",adminRole));
+        userRepository.save(new Users("Marcos","Fernandez","marcosadmin@gmail.com","12345",adminRole));
+        userRepository.save(new Users("Federico","Gomez","fedeadmin@gmail.com","12345",adminRole));
+        userRepository.save(new Users("Agustin","Garcia","agustinadmin@gmail.com","12345",adminRole));
+        userRepository.save(new Users("Martina","Sosa","martinadmin@gmail.com","12345",adminRole));
+        userRepository.save(new Users("Darío","Romero","darioadmin@gmail.com","12345",adminRole));
+        userRepository.save(new Users("Romina","Torres","romiadmin@gmail.com","12345",adminRole));
+        userRepository.save(new Users("Cintia","Flores","cintiadmin@gmail.com","12345",adminRole));
+        userRepository.save(new Users("Matias","Ruiz","matiasadmin@gmail.com","12345",adminRole));
+        userRepository.save(new Users("Pablo","Martinez","pabloadmin@gmail.com","12345",adminRole));
+        userRepository.save(new Users("Susana","Molina","susiadmin@gmail.com","12345",adminRole));
         Role userRole = roleRepository.findByName("USER");
-        userRepository.save(new Users("user","1","user1@gmail.com","12345",userRole));
-        userRepository.save(new Users("user","2","user2@gmail.com","12345",userRole));
-        userRepository.save(new Users("user","3","user3@gmail.com","12345",userRole));
-        userRepository.save(new Users("user","4","user4@gmail.com","12345",userRole));
-        userRepository.save(new Users("user","5","user5@gmail.com","12345",userRole));
-        userRepository.save(new Users("user","6","user6@gmail.com","12345",userRole));
-        userRepository.save(new Users("user","7","user7@gmail.com","12345",userRole));
-        userRepository.save(new Users("user","8","user8@gmail.com","12345",userRole));
-        userRepository.save(new Users("user","9","user9@gmail.com","12345",userRole));
-        userRepository.save(new Users("user","10","user10@gmail.com","12345",userRole));
+        userRepository.save(new Users("Pedro","Ruiz","pedrouser@gmail.com","12345",userRole));
+        userRepository.save(new Users("Roberto","Castro","robertuser@gmail.com","12345",userRole));
+        userRepository.save(new Users("Soledad","Ortiz","soleuser@gmail.com","12345",userRole));
+        userRepository.save(new Users("Maria","Silva","mariauser@gmail.com","12345",userRole));
+        userRepository.save(new Users("Alejandro","Nuñez","aleuser@gmail.com","12345",userRole));
+        userRepository.save(new Users("Mauricio","Gonzalez","mauriciouser@gmail.com","12345",userRole));
+        userRepository.save(new Users("Elias","Guevara","eliasuser@gmail.com","12345",userRole));
+        userRepository.save(new Users("Valentina","Moreno","valenuser@gmail.com","12345",userRole));
+        userRepository.save(new Users("Raul","Morales","rauluser@gmail.com","12345",userRole));
+        userRepository.save(new Users("Sabrina","Peralta","sabrinauser@gmail.com","12345",userRole));
     }
 
 
