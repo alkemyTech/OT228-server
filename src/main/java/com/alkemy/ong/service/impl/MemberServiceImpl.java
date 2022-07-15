@@ -1,8 +1,11 @@
 package com.alkemy.ong.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.alkemy.ong.exception.NotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +40,17 @@ public class MemberServiceImpl implements IMemberService {
 		return memberRepository.findAll().stream()
 				.map(m -> ModelMapperFacade.map(m, MemberDto.class))
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	public boolean delete(Long id) {
+		Optional<Member> member = memberRepository.findById(id);
+		if(member.isPresent()){
+			memberRepository.delete(member.get());
+			return true;
+		}else{
+			throw new NotFoundException(messageHandler.testimoniaNotFound);
+		}
 	}
 
 }

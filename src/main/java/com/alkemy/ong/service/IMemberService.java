@@ -10,4 +10,7 @@ public interface IMemberService {
 
 	List<MemberDto> findAll();
 
+	boolean delete(Long id);
+
+
 }
