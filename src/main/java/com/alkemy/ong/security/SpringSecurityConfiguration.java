@@ -54,6 +54,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/categories/**").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/users/**").permitAll()
+                //USER
+                .antMatchers(HttpMethod.POST, "/comments").hasRole("USER")
                 // Private endpoints
                 .antMatchers(HttpMethod.POST, "/organization/public").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/storage/**").hasRole("ADMIN")
