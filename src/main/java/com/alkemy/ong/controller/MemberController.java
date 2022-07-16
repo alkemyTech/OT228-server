@@ -5,17 +5,13 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.alkemy.ong.dto.MemberDto;
 import com.alkemy.ong.service.IMemberService;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import com.alkemy.ong.util.MessageHandler;
 
 @RestController
@@ -40,6 +36,14 @@ public class MemberController {
 		List<?> result = memberService.findAll();
 		return ResponseEntity.ok().body(!result.isEmpty() ?
 				result : messageHandler.membersNotFound);
+	}
+
+	@PutMapping("/id/{id}")
+	public ResponseEntity<?> updateMember (@Valid @PathVariable(name = "id") long id,
+										   @RequestBody MemberDto memberDto){
+
+		MemberDto memberResponce = memberService.update(memberDto,id);
+		return new ResponseEntity<>(memberResponce, HttpStatus.OK);
 	}
 
 }
