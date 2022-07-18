@@ -10,4 +10,8 @@ public interface IMemberService {
 
 	List<MemberDto> findAll();
 
+	MemberDto update(MemberDto memberDto, Long id);
+
+
+
 }
