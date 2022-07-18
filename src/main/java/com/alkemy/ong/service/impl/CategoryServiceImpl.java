@@ -40,7 +40,7 @@ public class CategoryServiceImpl implements ICategoryService {
 	}
   
     @Override
-    public Page<CategoryNameDto> viewAllCategoryNames(Pageable pageable) {
+    public Page<CategoryNameDto> viewAllCategoriesName(Pageable pageable) {
 		return categoryRepository.findAll(pageable).map(
 				c -> ModelMapperFacade.map(c, CategoryNameDto.class));
     }

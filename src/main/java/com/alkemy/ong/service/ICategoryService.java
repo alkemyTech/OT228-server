@@ -14,7 +14,7 @@ public interface ICategoryService {
 
 	CategoryDto update(CategoryDto categoryDto);
 
-	Page<CategoryNameDto> viewAllCategoryNames(Pageable pageable);
+	Page<CategoryNameDto> viewAllCategoriesName(Pageable pageable);
 
     boolean delete(Long categoriesId);
 
