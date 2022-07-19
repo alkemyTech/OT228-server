@@ -1,17 +1,15 @@
 package com.alkemy.ong.service.impl;
 
-import com.alkemy.ong.dto.CategoryNameDto;
-
-import org.modelmapper.ModelMapper;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.alkemy.ong.dto.CategoryDto;
+import com.alkemy.ong.dto.CategoryNameDto;
 import com.alkemy.ong.exception.BadRequestException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mappers.ModelMapperFacade;
@@ -42,12 +40,9 @@ public class CategoryServiceImpl implements ICategoryService {
 	}
   
     @Override
-    public List<CategoryNameDto> viewAllCategoryNames() {
-        List<CategoryNameDto> categoryNameDtos = new ArrayList<>();
-        categoryRepository.findAll()
-                .stream()
-                .forEach(category -> categoryNameDtos.add(mapper.map(category, CategoryNameDto.class)));
-        return categoryNameDtos;
+    public Page<CategoryNameDto> viewAllCategoriesName(Pageable pageable) {
+		return categoryRepository.findAll(pageable).map(
+				c -> ModelMapperFacade.map(c, CategoryNameDto.class));
     }
 
 	@Override
