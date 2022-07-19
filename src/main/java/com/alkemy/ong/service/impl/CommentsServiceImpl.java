@@ -8,6 +8,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CommentsServiceImpl implements ICommentsService {
 
@@ -20,6 +23,13 @@ public class CommentsServiceImpl implements ICommentsService {
     public CommentDto register(CommentDto comments) {
         Comment commentSaveResponce = commentsRepository.save(mapToEntity(comments));
         return mapToDTO(commentSaveResponce);
+    }
+
+    @Override
+    public List<CommentDto> findAll() {
+        return commentsRepository.findByOrderByCreatedAtAsc()
+                .stream().map(this::mapToDTO)
+                .collect(Collectors.toList());
     }
 
     //------ MAPPER ------
