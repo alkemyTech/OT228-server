@@ -3,13 +3,26 @@ package com.alkemy.ong.util;
 import com.alkemy.ong.model.Activity;
 import com.alkemy.ong.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ActivitySeed {
+public class ActivitySeed implements CommandLineRunner {
 
     @Autowired
     private ActivityRepository activityRepository;
+
+    @Override
+    public void run(String... args) throws Exception {
+        loadActivities();
+
+    }
+
+    private void loadActivities(){
+        if (activityRepository.count() == 0) {
+            createActivities();
+        }
+    }
 
     private void createActivities(){
         activityRepository.save(new Activity("Apoyo escolar nivel primario","El espacio de apoyo escolar es el corazon del area educativa. " +

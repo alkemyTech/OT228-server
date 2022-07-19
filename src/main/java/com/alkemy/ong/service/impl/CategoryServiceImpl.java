@@ -44,8 +44,8 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public List<CategoryNameDto> viewAllCategoryNames() {
         List<CategoryNameDto> categoryNameDtos = new ArrayList<>();
-        List<Category> lista = categoryRepository.findAll();
-        for (Category category : lista) {
+        List<Category> list = categoryRepository.findAll();
+        for (Category category : list) {
             
         }
         categoryRepository.findAll()
