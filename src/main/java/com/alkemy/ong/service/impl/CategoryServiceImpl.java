@@ -44,10 +44,6 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public List<CategoryNameDto> viewAllCategoryNames() {
         List<CategoryNameDto> categoryNameDtos = new ArrayList<>();
-        List<Category> list = categoryRepository.findAll();
-        for (Category category : list) {
-            
-        }
         categoryRepository.findAll()
                 .stream()
                 .forEach(category -> categoryNameDtos.add(mapper.map(category, CategoryNameDto.class)));
