@@ -4,6 +4,7 @@ import com.alkemy.ong.dto.NewsDto;
 
 import com.alkemy.ong.service.INewsService;
 
+import com.alkemy.ong.service.impl.CommentsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,8 @@ public class NewsController {
 
     @Autowired
     private INewsService newsService;
+    @Autowired
+    private CommentsServiceImpl commentsService;
 
     @PostMapping
     public ResponseEntity<?> createNews(@Valid @RequestBody NewsDto newsDto){
@@ -52,5 +55,10 @@ public class NewsController {
         }
     }
 
+    @GetMapping("/{newsId}/comments")
+    public ResponseEntity<?> findCommentsByNewsId(@PathVariable Long newsId){
+
+        return new ResponseEntity<>(commentsService.findCommentsByNewsId(newsId), HttpStatus.OK);
+    }
 
 }
