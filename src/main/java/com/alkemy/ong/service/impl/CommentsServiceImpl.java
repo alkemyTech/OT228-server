@@ -2,12 +2,14 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.CommentCreatDto;
 import com.alkemy.ong.dto.CommentDto;
+import com.alkemy.ong.dto.CommentUpdateDto;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.model.News;
 import com.alkemy.ong.model.Users;
 import com.alkemy.ong.repository.ICommentsRepository;
 import com.alkemy.ong.repository.INewsRepository;
 import com.alkemy.ong.repository.UsersRspository;
+import com.alkemy.ong.security.jwt.JwtUtils;
 import com.alkemy.ong.service.ICommentsService;
 import com.alkemy.ong.util.MessageHandler;
 import org.modelmapper.ModelMapper;
@@ -52,6 +54,24 @@ public class CommentsServiceImpl implements ICommentsService {
         comment.setNews(news.get());
         comment.setUser(users.get());
         commentsRepository.save(comment);
+    }
+
+    @Override
+    public void updateComment(Long idComment, String bearerToken, CommentUpdateDto commentUpdateDto) {
+        Optional<Comment> comment = commentsRepository.findById(idComment);
+        comment.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, messageHandler.commentNotFound));
+        Optional<Users> users = usersRspository.findByEmail(JwtUtils.getUsername(bearerToken));
+        users.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, messageHandler.usersNotFound));
+        Users userByToken = users.get();
+        Comment commentEntity = comment.get();
+        if (userByToken.getEmail().equals(commentEntity.getUser().getEmail())
+                || userByToken.getRole().getName().equals("ADMIN")) {
+            commentEntity.setBody(commentUpdateDto.getBody());
+            commentsRepository.save(commentEntity);
+        } else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, messageHandler.userUnauthorized);
+
+        }
     }
 
     //------ MAPPER ------
