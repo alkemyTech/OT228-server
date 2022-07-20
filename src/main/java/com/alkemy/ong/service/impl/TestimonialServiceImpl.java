@@ -3,12 +3,15 @@ package com.alkemy.ong.service.impl;
 import com.alkemy.ong.dto.TestimonialDto;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.exception.ResourceNotFoundException;
+import com.alkemy.ong.mappers.ModelMapperFacade;
 import com.alkemy.ong.model.Testimonials;
 import com.alkemy.ong.repository.TestimonialsRepository;
 import com.alkemy.ong.service.ITestimonialService;
 import com.alkemy.ong.util.MessageHandler;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -34,9 +37,9 @@ public class TestimonialServiceImpl implements ITestimonialService {
     }
 
     @Override
-    public List<TestimonialDto> findAll() {
-        //TODO Not implemented yet.
-        return null;
+    public Page<TestimonialDto> findAll(Pageable pageable) {
+            return testimonialsRepository.findAll(pageable).map(
+                    testimonials -> ModelMapperFacade.map(testimonials, TestimonialDto.class));
     }
 
     @Override

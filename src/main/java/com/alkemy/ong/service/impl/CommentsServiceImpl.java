@@ -1,10 +1,13 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.dto.CommentCreatDto;
 import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.exception.PermissionDeniedException;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.mappers.ModelMapperFacade;
 import com.alkemy.ong.model.Comment;
+import com.alkemy.ong.model.News;
+import com.alkemy.ong.model.Users;
 import com.alkemy.ong.repository.ICommentsRepository;
 import com.alkemy.ong.repository.UsersRspository;
 import com.alkemy.ong.service.ICommentsService;
@@ -15,7 +18,17 @@ import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.alkemy.ong.repository.INewsRepository;
+import com.alkemy.ong.repository.UsersRspository;
+import com.alkemy.ong.service.ICommentsService;
+import com.alkemy.ong.util.MessageHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 
 @Service
@@ -26,8 +39,15 @@ public class CommentsServiceImpl implements ICommentsService {
 
     @Autowired
     private UsersRspository usersRepository;
-
+    
+    @Autowired
     private MessageHandler messageHandler;
+    
+    @Autowired
+    private INewsRepository newsRepository;
+    
+    @Autowired
+    private UsersRspository usersRspository;
 
     @Override
     public CommentDto register(CommentDto comments) {
@@ -47,6 +67,18 @@ public class CommentsServiceImpl implements ICommentsService {
             throw new PermissionDeniedException();
         }
         commentsRepository.delete(comment);
+        }
+        
+    public void addCommentToPost(CommentCreatDto commentCreatDto) {
+        Optional<News> news = newsRepository.findById(commentCreatDto.getPost_id());
+        news.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, messageHandler.newsNotFound));
+        Optional<Users> users = usersRspository.findById(commentCreatDto.getUser_id());
+        users.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, messageHandler.usersNotFound));
+
+        Comment comment = mapper.map(commentCreatDto, Comment.class);
+        comment.setNews(news.get());
+        comment.setUser(users.get());
+        commentsRepository.save(comment);
     }
 
     public boolean adminRole() {

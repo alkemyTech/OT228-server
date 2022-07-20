@@ -48,4 +48,10 @@ public class Activity {
     @UpdateTimestamp
     @Column(name = "modified_at")
     private Timestamp modifiedAt;
+
+    public Activity(String name, String content, String image) {
+        this.name = name;
+        this.content = content;
+        this.image = image;
+    }
 }
