@@ -1,7 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.CommentDto;
-import com.alkemy.ong.exception.BadRequestException;
+import com.alkemy.ong.exception.PermissionDeniedException;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.mappers.ModelMapperFacade;
 import com.alkemy.ong.model.Comment;
@@ -11,6 +11,8 @@ import com.alkemy.ong.service.ICommentsService;
 import com.alkemy.ong.util.MessageHandler;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.PermissionDeniedDataAccessException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -42,7 +44,7 @@ public class CommentsServiceImpl implements ICommentsService {
                 .orElseThrow(() -> new ResourceNotFoundException(messageHandler.commentNotFound));
 
         if (!adminRole() && !(comment.getUser().getEmail().equals(userAuthenticated())) ) {
-            throw new BadRequestException("");
+            throw new PermissionDeniedException();
         }
         commentsRepository.delete(comment);
     }

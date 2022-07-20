@@ -28,6 +28,7 @@ public class MessageHandler {
     public final String testimoniaNotFound;
     public final String membersNotFound;
     public final String commentNotFound;
+    public final String permissionDenied;
 
 
     @Autowired
@@ -50,6 +51,7 @@ public class MessageHandler {
     		@Value("${member-name.regex}") String memberNameRegex,
         @Value("${testimonial.not-found}") String testimoniaNotFound,
             @Value("${comment.notFound}") String commentNotFound,
+            @Value("${permission.Denied}") String permissionDenied,
     		@Value("${members.not-found}") String membersNotFound) {
 
         this.userFound = userFound;
@@ -69,6 +71,7 @@ public class MessageHandler {
         this.contactsNotFound = contactsNotFound;
         this.memberNameRegex = memberNameRegex;
         this.testimoniaNotFound = testimoniaNotFound;
+        this.permissionDenied = permissionDenied;
         this.membersNotFound = membersNotFound;
         this.commentNotFound = commentNotFound;
 
