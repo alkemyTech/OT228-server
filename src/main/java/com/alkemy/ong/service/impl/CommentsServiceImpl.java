@@ -1,12 +1,22 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.dto.CommentCreatDto;
 import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.model.Comment;
+import com.alkemy.ong.model.News;
+import com.alkemy.ong.model.Users;
 import com.alkemy.ong.repository.ICommentsRepository;
+import com.alkemy.ong.repository.INewsRepository;
+import com.alkemy.ong.repository.UsersRspository;
 import com.alkemy.ong.service.ICommentsService;
+import com.alkemy.ong.util.MessageHandler;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 @Service
 public class CommentsServiceImpl implements ICommentsService {
@@ -16,15 +26,37 @@ public class CommentsServiceImpl implements ICommentsService {
     @Autowired
     private ModelMapper mapper;
 
+    @Autowired
+    private MessageHandler messageHandler;
+    @Autowired
+    private INewsRepository newsRepository;
+
+    @Autowired
+    private UsersRspository usersRspository;
+
     @Override
+
     public CommentDto register(CommentDto comments) {
         Comment commentSaveResponce = commentsRepository.save(mapToEntity(comments));
         return mapToDTO(commentSaveResponce);
     }
 
+    @Override
+    public void addCommentToPost(CommentCreatDto commentCreatDto) {
+        Optional<News> news = newsRepository.findById(commentCreatDto.getPost_id());
+        news.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, messageHandler.newsNotFound));
+        Optional<Users> users = usersRspository.findById(commentCreatDto.getUser_id());
+        users.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, messageHandler.usersNotFound));
+
+        Comment comment = mapper.map(commentCreatDto, Comment.class);
+        comment.setNews(news.get());
+        comment.setUser(users.get());
+        commentsRepository.save(comment);
+    }
+
     //------ MAPPER ------
     private CommentDto mapToDTO(Comment comment) {
-        return  mapper.map(comment, CommentDto.class);
+        return mapper.map(comment, CommentDto.class);
     }
 
     private Comment mapToEntity(CommentDto commentDto) {
