@@ -27,11 +27,33 @@ public class MessageHandler {
     public final String memberNameRegex;
     public final String testimoniaNotFound;
     public final String membersNotFound;
+    public final String commentNotFound;
+    public final String permissionDenied;
     public final String userUnauthorized;
     public final String commentNotFound;
 
     @Autowired
     public MessageHandler(
+    		@Value("${user.found}") String userFound,
+    		@Value("${news.notFound}")String newsNotFound,
+    		@Value("${category-id.required}") String categoryIdRequired,
+    		@Value("${category.notFound}") String categoryNotFound,
+    		@Value ("${resource.notFound}") String resourceNotFound,
+    		@Value("${slides.not-found}") String slidesNotFound,
+        @Value("${welcome.emailText}") String welcomeEmail,
+        @Value("${error.emailText}") String errorEmail,
+        @Value("${contact.emailText}") String contactEmail,
+        @Value("${category.notFound}") String activityNotFound,
+    		@Value("${users.not-found}") String usersNotFound,
+    		@Value("${slide.notFound}") String slideNotFound,
+        @Value("${organization.notFound}") String organizationNotFound,
+    		@Value("${slide-id.required}") String slideIdRequired,
+    		@Value("${contacts.not-found}") String contactsNotFound,
+    		@Value("${member-name.regex}") String memberNameRegex,
+        @Value("${testimonial.not-found}") String testimoniaNotFound,
+            @Value("${comment.notFound}") String commentNotFound,
+            @Value("${permission.Denied}") String permissionDenied,
+    		@Value("${members.not-found}") String membersNotFound) {
             @Value("${user.found}") String userFound,
             @Value("${news.notFound}") String newsNotFound,
             @Value("${category-id.required}") String categoryIdRequired,
@@ -53,6 +75,7 @@ public class MessageHandler {
             @Value("${user.unauthorized}") String userUnauthorized,
             @Value("${comment.notFound}") String commentNotFound) {
 
+
         this.userFound = userFound;
         this.resourceNotFound = resourceNotFound;
         this.categoryNotFound = categoryNotFound;
@@ -70,9 +93,12 @@ public class MessageHandler {
         this.contactsNotFound = contactsNotFound;
         this.memberNameRegex = memberNameRegex;
         this.testimoniaNotFound = testimoniaNotFound;
+        this.permissionDenied = permissionDenied;
         this.membersNotFound = membersNotFound;
+        this.commentNotFound = commentNotFound;
         this.userUnauthorized = userUnauthorized;
         this.commentNotFound = commentNotFound;
+
     }
 
 }
