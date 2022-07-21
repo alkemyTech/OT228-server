@@ -11,6 +11,6 @@ import javax.validation.constraints.NotNull;
 public class CommentUpdateDto {
 
     @NotNull
-    @Length(max = 1000, message = "body must be have 1000 characters")
+    @Length(max = 1000, message = "The maximum number of characters is 1000")
     private String body;
 }
