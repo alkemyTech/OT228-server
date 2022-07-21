@@ -51,4 +51,6 @@ public class UsersController {
         usersService.deleteByTokenOrId(usersId, bearerToken);
         return ResponseEntity.ok().build();
     }
+
+
 }
