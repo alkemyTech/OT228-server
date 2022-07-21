@@ -27,6 +27,7 @@ public class MessageHandler {
     public final String memberNameRegex;
     public final String testimoniaNotFound;
     public final String membersNotFound;
+    public final String listCommentsEmpty;
 
 
     @Autowired
@@ -48,7 +49,8 @@ public class MessageHandler {
     		@Value("${contacts.not-found}") String contactsNotFound,
     		@Value("${member-name.regex}") String memberNameRegex,
         @Value("${testimonial.not-found}") String testimoniaNotFound,
-    		@Value("${members.not-found}") String membersNotFound) {
+    		@Value("${members.not-found}") String membersNotFound,
+            @Value("${comments.empty}") String listCommentsEmpty) {
 
         this.userFound = userFound;
         this.resourceNotFound= resourceNotFound;
@@ -68,6 +70,7 @@ public class MessageHandler {
         this.memberNameRegex = memberNameRegex;
         this.testimoniaNotFound = testimoniaNotFound;
         this.membersNotFound = membersNotFound;
+        this.listCommentsEmpty = listCommentsEmpty;
 
     }
 

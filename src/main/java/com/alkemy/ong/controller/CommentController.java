@@ -21,7 +21,11 @@ public class CommentController {
 
     @GetMapping
     public ResponseEntity<?> listComments(){
-        return new ResponseEntity<>(commentsService.findAll(),HttpStatus.OK);
+        if(!commentsService.findAll().isEmpty()){
+             return new ResponseEntity<>(commentsService.findAll(),HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(messageHandler.listCommentsEmpty, HttpStatus.NOT_FOUND);
+        }
     }
 
 }
