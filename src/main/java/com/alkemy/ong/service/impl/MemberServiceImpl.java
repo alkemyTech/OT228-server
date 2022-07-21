@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.alkemy.ong.dto.MemberDto;
@@ -34,10 +36,9 @@ public class MemberServiceImpl implements IMemberService {
 	}
 
 	@Override
-	public List<MemberDto> findAll() {
-		return memberRepository.findAll().stream()
-				.map(m -> ModelMapperFacade.map(m, MemberDto.class))
-				.collect(Collectors.toList());
+	public Page<MemberDto> findAll(Pageable pageable) {
+		return memberRepository.findAll(pageable)
+				.map(m -> ModelMapperFacade.map(m, MemberDto.class));
 	}
 
 	@Override

@@ -27,11 +27,10 @@ public class Slide {
 
     @Column(name = "order_number")
     private Integer order;
-    
+
     @NotNull(message = "Organization must not be null.")
     @ManyToOne
     @JoinColumn(name = "organization_id")
     private Organization organization;
-
 
 }

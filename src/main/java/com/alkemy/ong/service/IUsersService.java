@@ -15,4 +15,5 @@ public interface IUsersService {
 
 	List<UserDto> findAll();
 
+	void deleteByTokenOrId(Long usersId, String bearerToken);
 }
