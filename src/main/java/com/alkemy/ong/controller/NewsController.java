@@ -5,6 +5,7 @@ import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.hateoas.IHateoas;
 import com.alkemy.ong.service.INewsService;
 
+import com.alkemy.ong.service.impl.CommentsServiceImpl;
 import com.alkemy.ong.util.MessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,9 @@ public class NewsController {
 
     @Autowired
     private INewsService newsService;
+
+    @Autowired
+    private CommentsServiceImpl commentsService;
 
     @Autowired
     private MessageHandler messageHandler;
@@ -70,6 +74,11 @@ public class NewsController {
                 !pages.isEmpty() ?
                         IHateoas.addPaginationLinks(newsService.findAll(pageable)) :
                         messageHandler.newsNotFound);
+    }
+
+    @GetMapping("/{newsId}/comments")
+    public ResponseEntity<?> findCommentsByNewsId(@PathVariable Long newsId){
+        return new ResponseEntity<>(commentsService.findCommentsByNewsId(newsId), HttpStatus.OK);
     }
 
 }
