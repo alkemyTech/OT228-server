@@ -62,14 +62,16 @@ public class UsersServiceImpl implements IUsersService {
         usersOptional.orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, messageHandler.usersNotFound));
         Users usersById = usersRepository.getById(id);
-
+        Optional<Users> users = usersRepository.findByEmail(JwtUtils.getUsername(token));
+        users.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, messageHandler.usersNotFound));
+        Users userByToken = users.get();
         if (
-                usersById.getEmail().equals(JwtUtils.getUsername(token)) ||
-                        usersById.getRole().getName().equals("ADMIN")) {
+                usersById.getEmail().equals(userByToken.getEmail()) ||
+                        userByToken.getRole().getName().equals("ADMIN")) {
 
             usersRepository.delete(usersById);
         } else {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, messageHandler.userUnauthorized);
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, messageHandler.userUnauthorized);
         }
     }
 

@@ -5,6 +5,8 @@ import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.exception.PermissionDeniedException;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.mappers.ModelMapperFacade;
+import com.alkemy.ong.dto.CommentUpdateDto;
+import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.model.News;
 import com.alkemy.ong.model.Users;
@@ -21,6 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.alkemy.ong.repository.INewsRepository;
 import com.alkemy.ong.repository.UsersRspository;
+import com.alkemy.ong.security.jwt.JwtUtils;
 import com.alkemy.ong.service.ICommentsService;
 import com.alkemy.ong.util.MessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -81,10 +86,48 @@ public class CommentsServiceImpl implements ICommentsService {
         commentsRepository.save(comment);
     }
 
+
     public boolean adminRole() {
         return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                 .anyMatch(grantedAuthority -> "ADMIN"
                         .equals(grantedAuthority.getAuthority()));
+
+    @Override
+    public void updateComment(Long idComment, String bearerToken, CommentUpdateDto commentUpdateDto) {
+        Optional<Comment> comment = commentsRepository.findById(idComment);
+        comment.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, messageHandler.commentNotFound));
+        Optional<Users> users = usersRspository.findByEmail(JwtUtils.getUsername(bearerToken));
+        users.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, messageHandler.usersNotFound));
+        Users userByToken = users.get();
+        Comment commentEntity = comment.get();
+        if (userByToken.getEmail().equals(commentEntity.getUser().getEmail())
+                || userByToken.getRole().getName().equals("ADMIN")) {
+            commentEntity.setBody(commentUpdateDto.getBody());
+            commentsRepository.save(commentEntity);
+        } else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, messageHandler.userUnauthorized);
+
+        }
+    }
+
+
+
+    @Override
+    public List<CommentDto> findCommentsByNewsId(Long id) {
+        List<CommentDto> commentDtos = new ArrayList<>();
+        Optional<Comment> comment = commentsRepository.findById(id);
+        if (comment.isEmpty()){
+            throw new ResourceNotFoundException(messageHandler.commentNotFound);
+        }
+        commentsRepository.findCommentsByNewsId(id)
+                .forEach(comment1 -> commentDtos.add(mapToDTO(comment1)));
+        return  commentDtos;
+    }
+
+    //------ MAPPER ------
+    private CommentDto mapToDTO(Comment comment) {
+        return mapper.map(comment, CommentDto.class);
+
     }
 
     public String userAuthenticated() {
