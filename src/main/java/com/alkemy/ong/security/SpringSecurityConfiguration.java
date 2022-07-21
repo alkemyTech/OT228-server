@@ -57,6 +57,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/users/**").permitAll()
                 //USER
                 .antMatchers(HttpMethod.POST, "/comments").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/news").permitAll()
                 // Private endpoints
                 .antMatchers(HttpMethod.POST, "/organization/public").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/storage/**").hasRole("ADMIN")
@@ -71,11 +72,11 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/v2/api-docs", "/swagger-ui.html", "/swagger-resources/**")
-				.antMatchers(HttpMethod.OPTIONS, "/**");
-	}
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/v2/api-docs", "/swagger-ui.html", "/swagger-resources/**")
+                .antMatchers(HttpMethod.OPTIONS, "/**");
+    }
 
     @Bean
     @Override
