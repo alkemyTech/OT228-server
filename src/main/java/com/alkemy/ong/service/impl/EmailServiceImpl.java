@@ -62,7 +62,6 @@ public class EmailServiceImpl implements IEmailService {
         Personalization personalization = new Personalization();
         personalization.addTo(to);
         personalization.addDynamicTemplateData("name", name);
-        personalization.addDynamicTemplateData("subject", messageHandler.welcomeEmail);
 
         Mail mail = new Mail();
         mail.setFrom(from);

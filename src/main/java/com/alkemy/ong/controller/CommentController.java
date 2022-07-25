@@ -28,10 +28,10 @@ import javax.validation.Valid;
 public class CommentController {
 
     @Autowired
-    private  ICommentsService commentsService;
+    private ICommentsService commentsService;
 
     @Autowired
-    private  MessageHandler messageHandler;
+    private MessageHandler messageHandler;
 
     @PostMapping
     public ResponseEntity<?> addCommentToPost(@Valid @RequestBody CommentCreatDto commentDto) {
@@ -39,7 +39,7 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-     @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable(name = "id") Long commentId) {
 
         if (!commentsService.existsById(commentId)) {
@@ -51,6 +51,7 @@ public class CommentController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateComment(@PathVariable("id") Long commentId,

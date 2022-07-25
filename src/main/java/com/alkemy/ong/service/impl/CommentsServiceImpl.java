@@ -44,13 +44,13 @@ public class CommentsServiceImpl implements ICommentsService {
 
     @Autowired
     private UsersRspository usersRepository;
-    
+
     @Autowired
     private MessageHandler messageHandler;
-    
+
     @Autowired
     private INewsRepository newsRepository;
-    
+
     @Autowired
     private UsersRspository usersRspository;
 
@@ -68,19 +68,19 @@ public class CommentsServiceImpl implements ICommentsService {
         Comment comment = commentsRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(messageHandler.commentNotFound));
 
-        if (!adminRole() && !(comment.getUser().getEmail().equals(userAuthenticated())) ) {
+        if (!adminRole() && !(comment.getUser().getEmail().equals(userAuthenticated()))) {
             throw new PermissionDeniedException();
         }
         commentsRepository.delete(comment);
-        }
-        
+    }
+
     public void addCommentToPost(CommentCreatDto commentCreatDto) {
         Optional<News> news = newsRepository.findById(commentCreatDto.getPost_id());
         news.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, messageHandler.newsNotFound));
         Optional<Users> users = usersRspository.findById(commentCreatDto.getUser_id());
         users.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, messageHandler.usersNotFound));
 
-        Comment comment = mapper.map(commentCreatDto, Comment.class);
+        Comment comment = ModelMapperFacade.map(commentCreatDto, Comment.class);
         comment.setNews(news.get());
         comment.setUser(users.get());
         commentsRepository.save(comment);
@@ -91,6 +91,7 @@ public class CommentsServiceImpl implements ICommentsService {
         return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                 .anyMatch(grantedAuthority -> "ADMIN"
                         .equals(grantedAuthority.getAuthority()));
+    }
 
     @Override
     public void updateComment(Long idComment, String bearerToken, CommentUpdateDto commentUpdateDto) {
@@ -111,22 +112,21 @@ public class CommentsServiceImpl implements ICommentsService {
     }
 
 
-
     @Override
     public List<CommentDto> findCommentsByNewsId(Long id) {
         List<CommentDto> commentDtos = new ArrayList<>();
         Optional<Comment> comment = commentsRepository.findById(id);
-        if (comment.isEmpty()){
+        if (comment.isEmpty()) {
             throw new ResourceNotFoundException(messageHandler.commentNotFound);
         }
         commentsRepository.findCommentsByNewsId(id)
                 .forEach(comment1 -> commentDtos.add(mapToDTO(comment1)));
-        return  commentDtos;
+        return commentDtos;
     }
 
     //------ MAPPER ------
     private CommentDto mapToDTO(Comment comment) {
-        return mapper.map(comment, CommentDto.class);
+        return ModelMapperFacade.map(comment, CommentDto.class);
 
     }
 
@@ -136,8 +136,8 @@ public class CommentsServiceImpl implements ICommentsService {
                 ? ((UserDetails) principal).getUsername() : principal.toString();
     }
 
-    public boolean existsById(Long id){
-       return commentsRepository.existsById(id);
+    public boolean existsById(Long id) {
+        return commentsRepository.existsById(id);
     }
 
 }
