@@ -4,9 +4,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 import com.alkemy.ong.exception.NotFoundException;
 import org.modelmapper.ModelMapper;
+import com.alkemy.ong.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.alkemy.ong.dto.MemberDto;
@@ -36,10 +40,18 @@ public class MemberServiceImpl implements IMemberService {
 	}
 
 	@Override
-	public List<MemberDto> findAll() {
-		return memberRepository.findAll().stream()
-				.map(m -> ModelMapperFacade.map(m, MemberDto.class))
-				.collect(Collectors.toList());
+	public Page<MemberDto> findAll(Pageable pageable) {
+		return memberRepository.findAll(pageable)
+				.map(m -> ModelMapperFacade.map(m, MemberDto.class));
+	}
+
+	@Override
+	public MemberDto update(MemberDto memberDto, Long id) {
+		return memberRepository.findById(id)
+				.map(m -> ModelMapperFacade.map(
+						memberRepository.save(ModelMapperFacade.map(memberDto, Member.class)),
+						MemberDto.class))
+				.orElseThrow(() -> new ResourceNotFoundException(messageHandler.membersNotFound));
 	}
 
 	@Override

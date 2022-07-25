@@ -2,7 +2,11 @@ package com.alkemy.ong.controller;
 
 import javax.validation.Valid;
 
+import com.alkemy.ong.hateoas.IHateoas;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +24,8 @@ public class MemberController {
 
 	protected static final String MEMBERS = "/members";
 	protected static final String ID = "/{id}";
+	private static final Integer SIZE = 10;
+
 
 	@Autowired
 	private IMemberService memberService;
@@ -33,10 +39,19 @@ public class MemberController {
 	}
 
 	@GetMapping
-	public ResponseEntity<?> findAll() {
-		List<?> result = memberService.findAll();
+	public ResponseEntity<?> findAll(@RequestParam(name = "page", required = true) String page) {
+		Pageable pageable = PageRequest.of(Integer.parseInt(page), SIZE);
+		Page<MemberDto> result = memberService.findAll(pageable);
 		return ResponseEntity.ok().body(!result.isEmpty() ?
-				result : messageHandler.membersNotFound);
+				IHateoas.addPaginationLinks(result) : messageHandler.membersNotFound);
+	}
+
+	@PutMapping("/id/{id}")
+	public ResponseEntity<?> updateMember (@Valid @PathVariable(name = "id") long id,
+										   @RequestBody MemberDto memberDto){
+
+		MemberDto memberResponce = memberService.update(memberDto,id);
+		return new ResponseEntity<>(memberResponce, HttpStatus.OK);
 	}
 	
 	@DeleteMapping(MemberController.ID)
