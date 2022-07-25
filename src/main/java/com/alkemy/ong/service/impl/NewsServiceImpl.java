@@ -1,6 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.NewsDto;
+import com.alkemy.ong.dto.TestimonialDto;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.model.Category;
 import com.alkemy.ong.model.News;
@@ -13,6 +14,8 @@ import com.alkemy.ong.mappers.ModelMapperFacade;
 import com.alkemy.ong.util.MessageHandler;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -45,12 +48,12 @@ public class NewsServiceImpl implements INewsService {
     }
 
     @Override
-    public NewsDto getNewsById(Long id) throws ResourceNotFoundException{
-        Optional<News> news =newsRepository.findById(id);
-        if (news.isEmpty()){
+    public NewsDto getNewsById(Long id) throws ResourceNotFoundException {
+        Optional<News> news = newsRepository.findById(id);
+        if (news.isEmpty()) {
             throw new ResourceNotFoundException(messageHandler.newsNotFound);
         }
-        return ModelMapperFacade.map(news,NewsDto.class);
+        return ModelMapperFacade.map(news, NewsDto.class);
 
     }
 
@@ -58,9 +61,9 @@ public class NewsServiceImpl implements INewsService {
     public NewsDto Update(NewsDto newsDto, Long newsId) throws ResourceNotFoundException {
         Optional<News> news = newsRepository.findById(newsId);
 
-        if(news.isEmpty()){
+        if (news.isEmpty()) {
             throw new ResourceNotFoundException(messageHandler.newsNotFound);
-        }else{
+        } else {
             News newsToUpdate = toEntity(newsDto);
             newsRepository.save(newsToUpdate);
         }
@@ -71,13 +74,19 @@ public class NewsServiceImpl implements INewsService {
     public boolean delete(Long id) {
         Optional<News> news = newsRepository.findById(id);
 
-        if (news.isEmpty()){
+        if (news.isEmpty()) {
             throw new ResourceNotFoundException((messageHandler.newsNotFound));
-        }else{
-            newsRepository.delete(ModelMapperFacade.map(news,News.class));
+        } else {
+            newsRepository.delete(ModelMapperFacade.map(news, News.class));
             return true;
         }
 
+    }
+
+    @Override
+    public Page<NewsDto> findAll(Pageable pageable) {
+        return newsRepository.findAll(pageable).map(
+                news -> ModelMapperFacade.map(news, NewsDto.class));
     }
 
     private NewsDto toDto(News news) {

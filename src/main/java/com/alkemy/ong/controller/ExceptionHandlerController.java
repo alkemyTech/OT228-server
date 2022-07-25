@@ -13,7 +13,7 @@ import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import com.alkemy.ong.exception.messages.ErrorMessage;
 
-//@ControllerAdvice
+@ControllerAdvice
 public class ExceptionHandlerController {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
