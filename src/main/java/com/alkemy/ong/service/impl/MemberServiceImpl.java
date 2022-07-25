@@ -1,8 +1,12 @@
 package com.alkemy.ong.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+
+import com.alkemy.ong.exception.NotFoundException;
+import org.modelmapper.ModelMapper;
 import com.alkemy.ong.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -48,6 +52,17 @@ public class MemberServiceImpl implements IMemberService {
 						memberRepository.save(ModelMapperFacade.map(memberDto, Member.class)),
 						MemberDto.class))
 				.orElseThrow(() -> new ResourceNotFoundException(messageHandler.membersNotFound));
+	}
+
+	@Override
+	public boolean delete(Long id) {
+		Optional<Member> member = memberRepository.findById(id);
+		if(member.isPresent()){
+			memberRepository.delete(member.get());
+			return true;
+		}else{
+			throw new NotFoundException(messageHandler.testimoniaNotFound);
+		}
 	}
 
 }

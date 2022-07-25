@@ -16,4 +16,7 @@ public interface IMemberService {
 
 
 
+	boolean delete(Long id);
+
+
 }

@@ -23,7 +23,9 @@ import com.alkemy.ong.util.MessageHandler;
 public class MemberController {
 
 	protected static final String MEMBERS = "/members";
+	protected static final String ID = "/{id}";
 	private static final Integer SIZE = 10;
+
 
 	@Autowired
 	private IMemberService memberService;
@@ -50,6 +52,15 @@ public class MemberController {
 
 		MemberDto memberResponce = memberService.update(memberDto,id);
 		return new ResponseEntity<>(memberResponce, HttpStatus.OK);
+	}
+	
+	@DeleteMapping(MemberController.ID)
+	public ResponseEntity<?> deleteMember(@Valid @RequestParam Long id){
+		if(memberService.delete(id)){
+			return new ResponseEntity<>(HttpStatus.OK);
+		}else{
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 
 }
