@@ -6,9 +6,14 @@ import com.alkemy.ong.dto.CommentUpdateDto;
 
 import java.util.List;
 
+import java.util.List;
+
 public interface ICommentsService {
 
     CommentDto register(CommentDto comments);
+
+
+    List<CommentDto> findAll();
     
     boolean existsById(Long id);
     

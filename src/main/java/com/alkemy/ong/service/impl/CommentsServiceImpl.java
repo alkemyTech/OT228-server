@@ -36,6 +36,9 @@ import java.util.List;
 import java.util.Optional;
 
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CommentsServiceImpl implements ICommentsService {
 
@@ -122,6 +125,13 @@ public class CommentsServiceImpl implements ICommentsService {
         commentsRepository.findCommentsByNewsId(id)
                 .forEach(comment1 -> commentDtos.add(mapToDTO(comment1)));
         return  commentDtos;
+    }
+
+    @Override
+    public List<CommentDto> findAll() {
+        return commentsRepository.findByOrderByCreatedAtAsc()
+                .stream().map(this::mapToDTO)
+                .collect(Collectors.toList());
     }
 
     //------ MAPPER ------

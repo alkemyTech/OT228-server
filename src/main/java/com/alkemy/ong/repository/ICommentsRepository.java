@@ -10,7 +10,11 @@ import java.util.List;
 @Repository
 public interface ICommentsRepository extends JpaRepository<Comment, Long> {
 
+
+    List<Comment> findByOrderByCreatedAtAsc();
+
     @Query("SELECT c FROM Comment c WHERE news.id = ?1")
     List<Comment> findCommentsByNewsId(Long id);
+
 
 }
