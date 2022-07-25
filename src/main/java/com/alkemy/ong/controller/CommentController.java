@@ -24,7 +24,7 @@ public class CommentController {
         if(!commentsService.findAll().isEmpty()){
              return new ResponseEntity<>(commentsService.findAll(),HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(messageHandler.listCommentsEmpty, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(messageHandler.listCommentsEmpty, HttpStatus.NO_CONTENT);
         }
     }
 
